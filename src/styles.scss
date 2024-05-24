@@ -1,0 +1,34 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,100..900;1,100..900&family=Questrial&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,100..900;1,100..900&family=Inter:wght@100..900&family=Questrial&display=swap');
+
+.font-inter {
+  font-family: 'Inter', sans-serif;
+}
+.font-questrial {
+  font-family: 'Questrial', sans-serif;
+}
+
+body {
+  @apply font-inter text-neutral-900;
+}
+
+.b-base {
+  @apply rounded-2xl h-16 flex items-center justify-center text-lg active:opacity-80;
+}
+.b-primary {
+  @apply b-base bg-neutral-900 text-white;
+}
+.b-subtle {
+  @apply b-base bg-transparent text-neutral-900;
+}
+.b-max {
+  @apply rounded-2xl h-fit p-4 flex flex-col gap-2 items-center justify-center text-lg active:opacity-80;
+}
+
+.i-default {
+  @apply rounded-2xl h-14 text-neutral-900 text-base placeholder-neutral-300 active:opacity-80 border border-neutral-300 px-4;
+}

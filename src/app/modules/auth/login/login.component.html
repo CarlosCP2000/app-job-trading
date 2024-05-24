@@ -1,0 +1,52 @@
+<div class="w-full h-screen flex flex-col p-10 gap-10">
+  <div class="flex items-center justify-between">
+    <div>
+      <button class="b-subtle" routerLink="/">
+        <arrow-uturn-left-solid-icon [size]="32"></arrow-uturn-left-solid-icon>
+      </button>
+    </div>
+    <div>
+      <img src="/assets/logos/logo-job-trading.svg" alt="JOB-TRADING" class="h-10">
+    </div>
+  </div>
+  <div class="flex-1 flex flex-col justify-between">
+    <div class="flex flex-col gap-10">
+      <div class="flex flex-col gap-5">
+        <span class="text-4xl font-questrial text-neutral-900">Vamos a iniciar sesión.</span>
+        <span class="text-xl text-neutral-900">¡Bienvenido de nuevo, te extrañamos!</span>
+      </div>
+
+      <div class="flex flex-col gap-5">
+        <input placeholder="Correo o nombre de usuario" type="text" class="i-default">
+        <input placeholder="Contraseña" type="password" class="i-default">
+      </div>
+
+      <div class="w-full flex gap-2">
+        <div class="flex-1 h-2 border-b border-neutral-300"></div>
+        <div class="h-4 w-4 rounded-full border border-neutral-300"></div>
+        <div class="flex-1 h-2 border-b border-neutral-300"></div>
+      </div>
+
+      <div class="flex justify-center items-center gap-10">
+        <button class="b-subtle">
+          <img src="/assets/logos/logo-google.png" alt="google">
+        </button>
+        <button class="b-subtle">
+          <img src="/assets/logos/logo-facebook.png" alt="facebook">
+        </button>
+        <button class="b-subtle">
+          <img src="/assets/logos/logo-apple.png" alt="apple">
+        </button>
+      </div>
+
+    </div>
+
+    <div class="flex flex-col gap-4 items-center">
+      <p>
+        ¿No tiene cuenta?, <a class="underline">Regístrese</a>
+      </p>
+      <button routerLink="/home" class="b-primary w-full">Iniciar sesión</button>
+    </div>
+
+  </div>
+</div>
