@@ -1,13 +1,14 @@
 import { Component } from '@angular/core';
 import {RouterLink} from "@angular/router";
-import {SolidIconsModule} from "@dimaslz/ng-heroicons";
+import {OutlineIconsModule, SolidIconsModule} from "@dimaslz/ng-heroicons";
 
 @Component({
   selector: 'app-home',
   standalone: true,
     imports: [
         RouterLink,
-        SolidIconsModule
+        SolidIconsModule,
+        OutlineIconsModule
     ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'

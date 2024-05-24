@@ -1,11 +1,14 @@
 <div class="w-full h-screen flex flex-col p-10 gap-10">
   <div class="flex items-center justify-between">
-    <div>
-      <button class="b-subtle" routerLink="/login">
+    <div class="flex items-center gap-4">
+      <button class="b-subtle">
         <bars-2-solid-icon [size]="32"></bars-2-solid-icon>
       </button>
+      <button class="b-subtle">
+        <bell-solid-icon [size]="32"></bell-solid-icon>
+      </button>
     </div>
-    <div>
+    <div routerLink="/login">
       <img src="assets/logos/logo-job-trading.svg" alt="JOB-TRADING" class="h-10">
     </div>
   </div>

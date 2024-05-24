@@ -10,23 +10,39 @@
     </div>
   </div>
   <div class="flex-1 flex flex-col justify-between">
-    <div class="flex flex-col gap-10">
-      <div class="flex flex-col gap-5">
-        <span class="text-4xl font-questrial text-neutral-900">Registrar oferta de trabajo</span>
-      </div>
+    <div class="flex flex-col gap-5">
+      <span class="text-4xl font-questrial text-neutral-900">Registrar oferta de trabajo</span>
+    </div>
+    <div class="flex flex-col gap-10 overflow-y-auto" style="height: calc(100vh - 400px)">
 
       <div class="gap-5 grid">
         <input placeholder="Título para la aplicación" type="text" class="i-default">
-        <input placeholder="Pago ofrecido por el trabajo" type="text" class="i-default">
-        <input placeholder="Plazo para concretar el trabajo" type="text" class="i-default">
+        <div class="flex items-center gap-2">
+          <input placeholder="Pago ofrecido por el trabajo" type="text" class="text-right i-default">
+          <span class="text-lg font-questrial text-neutral-900">soles</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <input placeholder="Plazo para concretar el trabajo" type="text" class="text-right i-default">
+          <span class="text-lg font-questrial text-neutral-900">días</span>
+        </div>
         <textarea placeholder="Descripción de la oferta" class="i-default py-3" style="height: fit-content" rows="3"></textarea>
-        <input placeholder="Umágenes" type="file" class="i-default">
+        <div class="w-full flex flex-col gap-1">
+          <button class="i-default">
+            <div class="flex items-center gap-4 w-full justify-center">
+              <inbox-arrow-down-solid-icon></inbox-arrow-down-solid-icon>
+              <span>Subir imágenes</span>
+            </div>
+          </button>
+          <div class="rounded-lg w-full overflow-hidden h-40">
+            <img class="w-full h-full" src="https://images.unsplash.com/photo-1513694203232-719a280e022f?q=80&w=869&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="">
+          </div>
+        </div>
       </div>
 
     </div>
-    <div class="flex items-center gap-2 rounded-2xl bg-neutral-100">
-      <button routerLink="/home" class="b-subtle flex-1">Volver</button>
-      <button routerLink="/register-work" class="b-primary flex-1">Publicar</button>
+    <div class="flex items-center gap-2 mt-6 rounded-2xl bg-neutral-100">
+      <button routerLink="/categories" class="b-subtle flex-1">Volver</button>
+      <button routerLink="/home" class="b-primary flex-1">Publicar</button>
     </div>
   </div>
 </div>
