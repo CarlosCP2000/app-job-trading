@@ -1,0 +1,143 @@
+La API es tipo:
+api/v1/auth/login
+api/v1/auth/register
+api/v1/auth/update
+api/v1/auth/delete
+
+api/v1/transaction/offer/create - update - delete
+
+------------------------------------------------------
+
+type User struct {
+	ID                   uuid.UUID  json:"id" db:"id"
+	Username             string     json:"username" db:"username"
+	Name                 string     json:"name" db:"name"
+	Lastname             string     json:"lastname" db:"lastname"
+	Password             string     json:"password" db:"password"
+	EmailNotifications   string     json:"email_notifications" db:"email_notifications"
+	IdentificationNumber string     json:"identification_number" db:"identification_number"
+	IdentificationType   string     json:"identification_type" db:"identification_type"
+	Status               int        json:"status" db:"status"
+	FailedAttempts       string     json:"failed_attempts" db:"failed_attempts"
+	LastChangePassword   *time.Time json:"last_change_password" db:"last_change_password"
+	BlockDate            *time.Time json:"block_date" db:"block_date"
+	DisabledDate         *time.Time json:"disabled_date" db:"disabled_date"
+	ChangePassword       bool       json:"change_password" db:"change_password"
+	IsBlock              bool       json:"is_blocked" db:"is_blocked"
+	IsDisabled           bool       json:"is_disabled" db:"is_disabled"
+	LastLogin            *time.Time json:"last_login" db:"last_login"
+	UserID               uuid.UUID  json:"user_id" db:"user_id"
+	CreatedAt            *time.Time json:"start_date" db:"start_date"
+	UpdatedAt            *time.Time json:"end_date" db:"end_date"
+	IDUser               uuid.UUID  json:"id_user" db:"id_user"
+	IsDelete             string     json:"is_deleted" db:"is_deleted"
+	DeletedAt            string     json:"deleted_at" db:"deleted_at"
+	ChangeFirstPassword  string     json:"change_first_password" db:"change_first_password"
+}
+
+type Role struct {
+	ID              uuid.UUID  json:"id" db:"id"
+	Name            string     json:"name" db:"name"
+	Description     string     json:"description" db:"description"
+	SessionsAllowed int        json:"sessions_allowed" db:"sessions_allowed"
+	SeeAllUsers     string     json:"see_all_users" db:"see_all_users"
+	CreatedAt       *time.Time json:"created_at" db:"created_at"
+	UpdatedAt       *time.Time json:"updated_at" db:"updated_at"
+	IDUser          uuid.UUID  json:"id_user" db:"id_user"
+	IsDelete        string     json:"is_delete" db:"is_delete"
+	DeletedAt       string     json:"deleted_at" db:"deleted_at"
+	Status          int        json:"status" db:"status"
+}
+
+type Session struct {
+	ID         uuid.UUID  json:"id" db:"id"
+	UserID     uuid.UUID  json:"user_id" db:"user_id"
+	Token      string     json:"token" db:"token"
+	Expiration *time.Time json:"expiration" db:"expiration"
+	CreatedAt  *time.Time json:"created_at" db:"created_at"
+	UpdatedAt  *time.Time json:"updated_at" db:"updated_at"
+	Status     int        json:"status" db:"status"
+}
+
+type Comment struct {
+	ID          int        json:"id" db:"id"
+	UserID      uuid.UUID  json:"user_id" db:"user_id"
+	Description string     json:"description" db:"description"
+	CreatedAt   *time.Time json:"created_at" db:"created_at"
+	UpdatedAt   *time.Time json:"updated_at" db:"updated_at"
+	Status      int        json:"status" db:"status"
+}
+
+type Calification struct {
+	ID          int        json:"id" db:"id"
+	Puntutation int        json:"puntutation" db:"puntutation"
+	UserID      uuid.UUID  json:"user_id" db:"user_id"
+	CreatedAt   *time.Time json:"created_at" db:"created_at"
+	UpdatedAt   *time.Time json:"updated_at" db:"updated_at"
+	Status      int        json:"status" db:"status"
+}
+
+type Login struct {
+	Username string json:"user"
+	password string json:"password"
+}
+
+---------------------------------------------------------------
+
+transaction: type Offer struct {
+	ID          int        json:"id"
+	Name        string     json:"name"
+	Description string     json:"description"
+	Deadline    string     json:"deadline"
+	Price       float64    json:"price"
+	Status      int        json:"status"
+	Type        string     json:"type"
+	Category    string     json:"category"
+	UserID      uuid.UUID  json:"user_id"
+	CreatedAt   *time.Time json:"created_at"
+	UpdatedAt   *time.Time json:"updated_at"
+}
+
+type ImageOffer struct {
+	ID      int    json:"id"
+	OfferID int    json:"offer_id"
+	Image   string json:"image"
+}
+
+type OfferAssignation struct {
+	ID        int        json:"id"
+	OfferID   int        json:"offer_id"
+	UserID    uuid.UUID  json:"user_id"
+	Status    int        json:"status"
+	CreatedAt *time.Time json:"created_at"
+	UpdatedAt *time.Time json:"updated_at"
+}
+
+
+
+type ResponseLogin struct {
+	Error bool   json:"error"
+	Data  *Token json:"data"
+	Code  int    json:"code"
+	Type  string json:"type"
+	Msg   string json:"msg"
+}
+
+type Token struct {
+	Token string json:"token"
+}
+
+type LoginRequest struct {
+	Username string json:"username"
+	Password string json:"password"
+}
+
+type RegisterRequest struct {
+	Username             string json:"username"
+	Name                 string json:"name"
+	Lastname             string json:"lastname"
+	Password             string json:"password"
+	EmailNotifications   string json:"email_notifications"
+	IdentificationNumber string json:"identification_number"
+	IdentificationType   string json:"identification_type"
+}

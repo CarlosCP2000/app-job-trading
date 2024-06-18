@@ -25,6 +25,7 @@ export interface RegisterRequest {
   email_notifications: string;
   identification_number: string;
   identification_type: string;
+  favorite_phrase: string;
 }
 
 export interface ResponseUser {
@@ -35,9 +36,30 @@ export interface ResponseUser {
   msg: string;
 }
 
+
+export interface ResponseLogin{
+  error: boolean;
+  data: Token;
+  code: number;
+  type: string;
+  msg: string;
+}
+
+export interface Token{
+  token: string;
+}
+
+export interface LoginRequest{
+  username: string;
+  password: string;
+}
+
+
 export interface AlertForm {
   type: string;
   visible: boolean;
   message: string;
 }
+
+
 

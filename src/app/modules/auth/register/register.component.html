@@ -29,6 +29,7 @@
             <option value="Carnet extranjería">Carnet extranjería</option>
           </select>
           <input formControlName="identification_number" placeholder="Número de identificación" type="text" class="i-default">
+          <input formControlName="favorite_phrase" placeholder="Frase favorita" type="text" class="i-default">
         </div>
       </form>
 
@@ -40,6 +41,8 @@
       </div>
 
     </div>
+
+
 
     <div class="flex flex-col gap-4 items-center">
       <button (click)="onSendForm()" class="b-primary w-full">Registrarse</button>
