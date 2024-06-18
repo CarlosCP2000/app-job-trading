@@ -1,0 +1,24 @@
+<div class="w-full h-screen flex flex-col p-10 gap-10">
+  <div class="flex items-center justify-between">
+    <div>
+      <button class="b-subtle" routerLink="/home">
+        <arrow-left-solid-icon [size]="32"></arrow-left-solid-icon>
+      </button>
+    </div>
+    <div>
+      <img src="assets/logos/logo-job-trading.svg" alt="JOB-TRADING" class="h-10">
+    </div>
+  </div>
+  <div class="h-full flex flex-col items-center justify-center gap-2">
+    <div class="flex flex-col gap-10">
+      <div class="flex flex-col gap-5 text-center items-center">
+        <check-circle-solid-icon [size]="56" class="text-emerald-600"></check-circle-solid-icon>
+        <span class="text-4xl font-questrial text-neutral-900">Oferta publicada</span>
+        <span class="text-base font-questrial text-neutral-900">Se le notificará cuando un trabajador acepte la oferta.</span>
+      </div>
+
+    <div class="flex items-center gap-2 rounded-2xl bg-neutral-100">
+      <button routerLink="/home" class="b-primary flex-1">Aceptar</button>
+    </div>
+  </div>
+</div>
