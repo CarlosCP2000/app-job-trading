@@ -17,28 +17,23 @@
 
       <form class="" [formGroup]="registerForm">
         <div class="flex flex-col gap-5">
-          <input formControlName="username" placeholder="Dirección de correo electrónico" type="text" class="i-default">
-          <input formControlName="password" placeholder="Contraseña" type="password" class="i-default">
-          <input placeholder="Confirmar contraseña" type="password" class="i-default">
 
           <input formControlName="name" placeholder="Nombres" type="text" class="i-default">
           <input formControlName="lastname" placeholder="Apellidos" type="text" class="i-default">
-          <select formControlName="identification_type" placeholder="Tipo de identificación" class="i-default">
+
+          <input formControlName="username" placeholder="Nombre de usuario" type="text" class="i-default">
+          <input formControlName="password" placeholder="Contraseña" type="password" class="i-default">
+          <input placeholder="Confirmar contraseña" type="password" class="i-default">
+
+          <!--<select formControlName="identification_type" placeholder="Tipo de identificación" class="i-default">
             <option value="DNI">DNI</option>
             <option value="RUC">RUC</option>
             <option value="Carnet extranjería">Carnet extranjería</option>
           </select>
           <input formControlName="identification_number" placeholder="Número de identificación" type="text" class="i-default">
-          <input formControlName="favorite_phrase" placeholder="Frase favorita" type="text" class="i-default">
+          <input formControlName="favorite_phrase" placeholder="Frase favorita" type="text" class="i-default">-->
         </div>
       </form>
-
-
-      <div class="w-full flex gap-2">
-        <div class="flex-1 h-2 border-b border-neutral-300"></div>
-        <div class="h-4 w-4 rounded-full border border-neutral-300"></div>
-        <div class="flex-1 h-2 border-b border-neutral-300"></div>
-      </div>
 
     </div>
 
