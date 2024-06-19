@@ -19,11 +19,50 @@
         <div class="flex flex-col gap-5">
 
           <input formControlName="name" placeholder="Nombres" type="text" class="i-default">
+          <div
+            *ngIf="registerForm.get('name')?.invalid && registerForm.get('name')?.touched && registerForm.get('name')?.hasError('required')"
+            class="flex flex-col gap-2">
+            <span class="text-d h-700"></span>
+            <p class="text-d t-default"><span class="text-danger">Este campo es requerido</span></p>
+          </div>
+
           <input formControlName="lastname" placeholder="Apellidos" type="text" class="i-default">
+          <div
+            *ngIf="registerForm.get('lastname')?.invalid && registerForm.get('lastname')?.touched && registerForm.get('lastname')?.hasError('required')"
+            class="flex flex-col gap-2">
+            <span class="text-d h-700"></span>
+            <p class="text-d t-default"><span class="text-danger">Este campo es requerido</span></p>
+          </div>
 
           <input formControlName="username" placeholder="Nombre de usuario" type="text" class="i-default">
+          <div
+            *ngIf="registerForm.get('username')?.invalid && registerForm.get('username')?.touched && registerForm.get('username')?.hasError('required')"
+            class="flex flex-col gap-2">
+            <span class="text-d h-700"></span>
+            <p class="text-d t-default"><span class="text-danger">Este campo es requerido</span></p>
+          </div>
+
           <input formControlName="password" placeholder="Contraseña" type="password" class="i-default">
-          <input placeholder="Confirmar contraseña" type="password" class="i-default">
+          <div
+            *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched && registerForm.get('password')?.hasError('required')"
+            class="flex flex-col gap-2">
+            <span class="text-d h-700"></span>
+            <p class="text-d t-default"><span class="text-danger">Este campo es requerido</span></p>
+          </div>
+          <div
+            *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched && registerForm.get('password')?.hasError('minLength')"
+            class="flex flex-col gap-2">
+            <span class="text-d h-700"></span>
+            <p class="text-d t-default"><span class="text-danger">Este tiene que ser mayor a 8 dígitos</span></p>
+          </div>
+
+          <input formControlName="confirmPassword" placeholder="Confirmar contraseña" type="password" class="i-default">
+          <div
+            *ngIf="registerForm.get('confirmPassword')?.invalid && registerForm.get('confirmPassword')?.touched && registerForm.get('confirmPassword')?.hasError('required')"
+            class="flex flex-col gap-2">
+            <span class="text-d h-700"></span>
+            <p class="text-d t-default"><span class="text-danger">Este campo es requerido</span></p>
+          </div>
 
           <!--<select formControlName="identification_type" placeholder="Tipo de identificación" class="i-default">
             <option value="DNI">DNI</option>

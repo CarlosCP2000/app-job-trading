@@ -15,17 +15,18 @@
     </div>
     <div class="flex flex-col gap-10 overflow-y-auto" style="height: calc(100vh - 400px)">
 
+      <form action="" [formGroup]="registerForm">
       <div class="gap-5 grid">
-        <input placeholder="Título para la aplicación" type="text" class="i-default">
+        <input formControlName="name" placeholder="Título para la aplicación" type="text" class="i-default">
         <div class="flex items-center gap-2">
-          <input placeholder="Pago ofrecido por el trabajo" type="text" class="text-right i-default">
+          <input formControlName="price" placeholder="Pago ofrecido por el trabajo" type="text" class="text-right i-default">
           <span class="text-lg font-questrial text-neutral-900">soles</span>
         </div>
         <div class="flex items-center gap-2">
-          <input placeholder="Plazo para concretar el trabajo" type="text" class="text-right i-default">
+          <input formControlName="deadline" placeholder="Plazo para concretar el trabajo" type="text" class="text-right i-default">
           <span class="text-lg font-questrial text-neutral-900">días</span>
         </div>
-        <textarea placeholder="Descripción de la oferta" class="i-default py-3" style="height: fit-content" rows="3"></textarea>
+        <textarea formControlName="description" placeholder="Descripción de la oferta" class="i-default py-3" style="height: fit-content" rows="3"></textarea>
         <div class="w-full flex flex-col gap-1">
           <button class="i-default">
             <div class="flex items-center gap-4 w-full justify-center">
@@ -38,11 +39,12 @@
           </div>
         </div>
       </div>
-
+      </form>
     </div>
+
     <div class="flex items-center gap-2 mt-6 rounded-2xl bg-neutral-100">
       <button routerLink="/categories" class="b-subtle flex-1">Volver</button>
-      <button routerLink="/home" class="b-primary flex-1">Publicar</button>
+      <button (click)="onSendForm()" routerLink="/home" class="b-primary flex-1">Publicar</button>
     </div>
   </div>
 </div>

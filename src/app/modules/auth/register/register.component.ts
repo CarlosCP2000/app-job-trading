@@ -10,10 +10,11 @@ import {
   Validators
 } from "@angular/forms";
 import {Subscription} from "rxjs";
-import {UserService} from '../../../services/user/user.service';
-import {AlertForm, RegisterRequest, ResponseUser} from '../../../models/user';
+import {AuthService} from '../../../services/auth/auth.service';
+import {AlertForm, RegisterRequest} from '../../../models/auth';
 import {SolidIconsModule} from "@dimaslz/ng-heroicons";
-import bcrypt from 'bcryptjs';
+import bcrypt from "bcryptjs";
+import {NgIf} from "@angular/common";
 
 
 @Component({
@@ -23,7 +24,8 @@ import bcrypt from 'bcryptjs';
   imports: [
     ReactiveFormsModule,
     SolidIconsModule,
-    RouterLink
+    RouterLink,
+    NgIf
   ],
   styleUrls: ['./register.component.scss']
 })
@@ -34,7 +36,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
   public errorMessage: string | null = null;
   private _subscription = new Subscription();
 
-
+  private saltRounds = 10;
 
   public user: RegisterRequest = {
     username: '',
@@ -51,22 +53,23 @@ export class RegisterComponent implements OnInit, OnDestroy {
     this._subscription.unsubscribe();
   }
 
-  ngOnInit(): void { }
+  ngOnInit(): void {
+    localStorage.removeItem('Token');
+  }
 
-  constructor(private fb: FormBuilder, private router: Router, private userService: UserService) {
+  constructor(private fb: FormBuilder, private router: Router, private AuthService: AuthService){
     this.registerForm = this.fb.group({
-      username: ['', [Validators.required, Validators.email]],
+      username: ['', [Validators.required]],
       password: ['', [Validators.required, Validators.minLength(8)]],
-      confirmPassword: ['', Validators.required],
+      confirmPassword: ['', [Validators.required, Validators.minLength(8)]],
       name: ['', Validators.required],
       lastname: ['', Validators.required],
-      email_notifications: ['', Validators.required],
-      identification_type: ['DNI', Validators.required],
-      identification_number: ['', Validators.required],
-      favorite_phrase: ['', Validators.required],
+      email_notifications: [''],
+      identification_type: [''],
+      identification_number: [''],
+      favorite_phrase: [''],
     }, { validators: this.passwordMatchValidator });
 
-    this.catchTokenUrl();
     this.alertForm = { type: '', message: '', visible: false };
     this.loadingForm = false;
   }
@@ -80,62 +83,53 @@ export class RegisterComponent implements OnInit, OnDestroy {
     return password.value === confirmPassword.value ? null : { mismatch: true };
   };
 
-  private async encryptPassword(password: string): Promise<string> {
-    try {
-      const salt = await bcrypt.genSalt(10);
-      return await bcrypt.hash(password, salt);
-
-    } catch (error) {
-      console.error('Error al encriptar la contraseña:', error);
-      throw error;
-    }
+  private encryptPassword(password: string): string {
+    const salt = bcrypt.genSaltSync(this.saltRounds);
+    return bcrypt.hashSync(password, salt);
   }
+  onSendForm() {
 
-  async onSendForm() {
+    if (this.registerForm.invalid) {
+      this.errorMessage = 'Por favor, complete todos los campos';
+      this.registerForm.markAllAsTouched()
+      return;
+    }
+
     this.loadingForm = true;
     const formValue = this.registerForm.value;
 
-    try {
       this.user = {
         ...this.user,
         username: formValue.username,
-        password: await this.encryptPassword(formValue.password),
+        password: this.encryptPassword(formValue.password),
         name: formValue.name,
         lastname: formValue.lastname,
         email_notifications: formValue.username,
         identification_type: formValue.identification_type,
-        identification_number: formValue.identification_number,
+        identification_number: (Math.floor(Math.random() * (999999999 - 99999999 + 1)) + 99999999).toString(),
         favorite_phrase: formValue.favorite_phrase,
       };
 
       this._subscription.add(
-        this.userService.createUser(this.user).subscribe(
-          (res) => {
-            this.loadingForm = false;
+        this.AuthService.createUser(this.user).subscribe({
+          next: (res) => {
             if (res.error) {
-              this.errorMessage = res.msg;
-            } else if (res.type === 'success') {
-              this.router.navigate(['/home']);
+              this.errorMessage = 'Error al iniciar sesión';
+              return;
             }
+            this.router.navigate(['/login']);
           },
-          (error) => {
-            this.loadingForm = false;
+          error: (err) => {
+            console.error('Hubo un error en el registro. Por favor, inténtelo de nuevo:', err);
             this.errorMessage = 'Hubo un error en el registro. Por favor, inténtelo de nuevo.';
+          },
+          complete: () => {
+            this.loadingForm = false;
+            console.log('completo')
           }
+        }
         )
       );
-    } catch (error) {
-      console.error('Error al encriptar la contraseña:', error);
-      this.loadingForm = false;
-      this.errorMessage = 'Hubo un error al encriptar la contraseña. Por favor, inténtelo de nuevo.';
-    }
   }
 
-  catchTokenUrl() {
-    const urlData = new URL(window.location.href);
-    const token = urlData.searchParams.get('token');
-    if (token) {
-      sessionStorage.setItem('access-token', token);
-    }
-  }
 }

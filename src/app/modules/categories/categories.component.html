@@ -16,19 +16,19 @@
       </div>
 
       <div class="gap-5 grid grid-cols-2">
-        <button class="w-full b-max bg-neutral-100 border-2 border-neutral-200 focus:border-4 focus:border-neutral-900">
+        <button class="w-full b-max bg-neutral-100 border-2 border-neutral-200 focus:border-4 focus:border-neutral-900" (click)="selectCategory('pintor')">
           <img class="w-16 h-16" src="../../../assets/icons/pintor.png" alt="pintura">
           <span class="text-base text-neutral-900">Pintor</span>
         </button>
-        <button class="w-full b-max bg-neutral-100 border-2 border-neutral-200 focus:border-4 focus:border-neutral-900">
+        <button class="w-full b-max bg-neutral-100 border-2 border-neutral-200 focus:border-4 focus:border-neutral-900" (click)="selectCategory('carpintero')">
           <img class="w-16 h-16" src="../../../assets/icons/carpintero.png" alt="pintura">
           <span class="text-base text-neutral-900">Carpintero</span>
         </button>
-        <button class="w-full b-max bg-neutral-100 border-2 border-neutral-200 focus:border-4 focus:border-neutral-900">
+        <button class="w-full b-max bg-neutral-100 border-2 border-neutral-200 focus:border-4 focus:border-neutral-900" (click)="selectCategory('zapatero')">
           <img class="w-16 h-16" src="../../../assets/icons/zapatero.png" alt="pintura">
           <span class="text-base text-neutral-900">Zapatero</span>
         </button>
-        <button class="w-full b-max bg-neutral-100 border-2 border-neutral-200 focus:border-4 focus:border-neutral-900">
+        <button class="w-full b-max bg-neutral-100 border-2 border-neutral-200 focus:border-4 focus:border-neutral-900" (click)="selectCategory('costurero')">
           <img class="w-16 h-16" src="../../../assets/icons/costurero.png" alt="pintura">
           <span class="text-base text-neutral-900">Costurero</span>
         </button>
@@ -37,7 +37,7 @@
     </div>
     <div class="flex items-center gap-2 rounded-2xl bg-neutral-100">
       <button routerLink="/home" class="b-subtle flex-1">Volver</button>
-      <button routerLink="/register-work" class="b-primary flex-1">Continuar</button>
+      <button (click)="saveCategory()" routerLink="/register-work" class="b-primary flex-1">Continuar</button>
     </div>
   </div>
 </div>

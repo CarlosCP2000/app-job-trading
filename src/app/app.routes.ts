@@ -5,6 +5,7 @@ import {OnboardingComponent} from "./modules/auth/onboarding/onboarding.componen
 import {HomeComponent} from "./modules/home/home.component";
 import {CategoriesComponent} from "./modules/categories/categories.component";
 import {RegisterWorkComponent} from "./modules/register-work/register-work.component";
+import {AuthGuard} from "./core/guard/auth/auth.guard";
 
 export const routes: Routes = [
   {
@@ -21,14 +22,17 @@ export const routes: Routes = [
   },
   {
     path: 'home',
-    component: HomeComponent
+    component: HomeComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'categories',
-    component: CategoriesComponent
+    component: CategoriesComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'register-work',
-    component: RegisterWorkComponent
+    component: RegisterWorkComponent,
+    canActivate: [AuthGuard]
   }
 ];

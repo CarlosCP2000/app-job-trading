@@ -19,5 +19,5 @@ export const EnvServiceFactory = () => {
 export const EnvServiceProvider = {
   provide: EnvService,
   useFactory: EnvServiceFactory,
-  deps: {},
+  deps: [],
 };

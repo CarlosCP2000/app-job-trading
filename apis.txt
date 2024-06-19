@@ -8,7 +8,7 @@ api/v1/transaction/offer/create - update - delete
 
 ------------------------------------------------------
 
-type User struct {
+type Auth struct {
 	ID                   uuid.UUID  json:"id" db:"id"
 	Username             string     json:"username" db:"username"
 	Name                 string     json:"name" db:"name"

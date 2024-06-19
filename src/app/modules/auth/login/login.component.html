@@ -19,7 +19,21 @@
       <form class="" [formGroup]="registerForm">
         <div class="flex flex-col gap-5">
           <input formControlName="username" placeholder="Nombre de usuario" type="text" class="i-default">
+          <div
+            *ngIf="registerForm.get('username')?.invalid && registerForm.get('username')?.touched && registerForm.get('username')?.hasError('required')"
+            class="flex flex-col gap-2">
+            <span class="text-d h-700"></span>
+            <p class="text-d t-default"><span class="text-danger">Este campo es requerido</span></p>
+          </div>
+
           <input formControlName="password" placeholder="Contraseña" type="password" class="i-default">
+          <div
+            *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched && registerForm.get('password')?.hasError('required')"
+            class="flex flex-col gap-2">
+            <span class="text-d h-700"></span>
+            <p class="text-d t-default"><span class="text-danger">Este campo es requerido clave</span></p>
+          </div>
+
         </div>
       </form>
 
