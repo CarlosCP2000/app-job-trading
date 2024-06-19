@@ -17,7 +17,11 @@
 
       <form action="" [formGroup]="registerForm">
       <div class="gap-5 grid">
+
         <input formControlName="name" placeholder="Título para la aplicación" type="text" class="i-default">
+
+        <input placeholder="Título para la publicación" type="text" class="i-default">
+
         <div class="flex items-center gap-2">
           <input formControlName="price" placeholder="Pago ofrecido por el trabajo" type="text" class="text-right i-default">
           <span class="text-lg font-questrial text-neutral-900">soles</span>
@@ -44,7 +48,11 @@
 
     <div class="flex items-center gap-2 mt-6 rounded-2xl bg-neutral-100">
       <button routerLink="/categories" class="b-subtle flex-1">Volver</button>
+
       <button (click)="onSendForm()" routerLink="/home" class="b-primary flex-1">Publicar</button>
+
+      <button routerLink="/published-success" class="b-primary flex-1">Publicar</button>
+
     </div>
   </div>
 </div>

@@ -6,6 +6,11 @@ import {HomeComponent} from "./modules/home/home.component";
 import {CategoriesComponent} from "./modules/categories/categories.component";
 import {RegisterWorkComponent} from "./modules/register-work/register-work.component";
 import {AuthGuard} from "./core/guard/auth/auth.guard";
+import {FilterWorkComponent} from "./modules/filter-work/filter-work.component";
+import {QueryWorkComponent} from "./modules/query-work/query-work.component";
+import {DetailWorkComponent} from "./modules/detail-work/detail-work.component";
+import {PublishedSuccessComponent} from "./modules/published-success/published-success.component";
+import {RequestSentComponent} from "./modules/request-sent/request-sent.component";
 
 export const routes: Routes = [
   {
@@ -34,5 +39,25 @@ export const routes: Routes = [
     path: 'register-work',
     component: RegisterWorkComponent,
     canActivate: [AuthGuard]
+  },
+  {
+    path: 'filter-work',
+    component: FilterWorkComponent
+  },
+  {
+    path: 'query-work',
+    component: QueryWorkComponent
+  },
+  {
+    path: 'detail-work',
+    component: DetailWorkComponent
+  },
+  {
+    path: 'published-success',
+    component: PublishedSuccessComponent
+  },
+  {
+    path: 'request-sent',
+    component: RequestSentComponent
   }
 ];

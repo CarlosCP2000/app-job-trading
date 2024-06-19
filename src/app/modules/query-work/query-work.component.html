@@ -1,0 +1,54 @@
+<div class="w-full h-screen flex flex-col p-10 gap-10">
+  <div class="flex items-center justify-between">
+    <div>
+      <button class="b-subtle" routerLink="/home">
+        <x-mark-solid-icon [size]="32"></x-mark-solid-icon>
+      </button>
+    </div>
+    <div>
+      <img src="assets/logos/logo-job-trading.svg" alt="JOB-TRADING" class="h-10">
+    </div>
+  </div>
+  <div class="flex-1 flex flex-col gap-2">
+    <div class="flex flex-col gap-10 h-full">
+      <div class="flex flex-col gap-5">
+        <span class="text-4xl font-questrial text-neutral-900">Bandeja <br> de Trabajo</span>
+      </div>
+
+      <div class="w-full overflow-y-auto" style="height: calc(100vh - 400px);">
+        <div class="flex flex-col gap-4 ">
+          <div class="ITEM p-5 rounded-2xl border-2 border-gray-200 bg-white flex flex-col gap-5">
+            <div class="flex items-start gap-4">
+              <div>
+                <img class="w-10 h-10" src="../../../assets/icons/pintor.png" alt="">
+              </div>
+              <div class="flex flex-col flex-1">
+                <span class="text-xs text-neutral-900 uppercase">Oferta N° 41</span>
+                <span class="text-base text-neutral-900">Pintar cuarto de 20m^2 de blanco</span>
+              </div>
+            </div>
+            <div class="w-full flex flex-wrap gap-4 bg-gray-100 p-2 rounded-lg">
+              <div class="flex flex-col w-fit">
+                <span class="text-xs text-neutral-900 uppercase">Plazo</span>
+                <span class="text-base text-neutral-900">En 3 días (20/05/2024)</span>
+              </div>
+              <div class="flex flex-col w-fit">
+                <span class="text-xs text-neutral-900 uppercase">Estado</span>
+                <span class="text-base text-neutral-900">Pendiente</span>
+              </div>
+            </div>
+            <button routerLink="/detail-work" class="w-full b-subtle">
+              <span>Ver solicitudes</span>
+              <chevron-right-solid-icon [size]="16"></chevron-right-solid-icon>
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <div class="flex items-center gap-2 rounded-2xl bg-neutral-100">
+      <button routerLink="/home" class="b-subtle flex-1">Volver</button>
+      <button routerLink="/query-work" class="b-primary flex-1">Refrescar</button>
+    </div>
+  </div>
+</div>

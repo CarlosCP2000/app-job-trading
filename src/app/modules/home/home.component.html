@@ -1,11 +1,11 @@
 <div class="w-full h-screen flex flex-col p-10 gap-10">
   <div class="flex items-center justify-between">
     <div class="flex items-center gap-4">
-      <button class="b-subtle">
-        <bell-solid-icon [size]="32"></bell-solid-icon>
+      <button class="b-subtle" routerLink="/login">
+        <power-solid-icon [size]="32"></power-solid-icon>
       </button>
     </div>
-    <div routerLink="/login">
+    <div>
       <img src="assets/logos/logo-job-trading.svg" alt="JOB-TRADING" class="h-10">
     </div>
   </div>
@@ -24,7 +24,7 @@
           </button>
         </div>
         <div class="flex-1">
-          <button class="w-full b-max bg-pink-100 border-2 border-pink-200">
+          <button routerLink="/filter-work" class="w-full b-max bg-pink-100 border-2 border-pink-200">
             <img src="assets/pictures/pic-buscar-trabajo.png" alt="BUSCAR">
             <span class="text-base text-neutral-900">Buscar trabajo</span>
           </button>
