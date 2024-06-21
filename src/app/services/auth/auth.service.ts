@@ -28,4 +28,14 @@ export class AuthService {
 
     return this._httpClient.post<ResponseLogin>(this.urlLoginUser, data);
   }
+
+  public getUserId(): void {
+
+    const token = localStorage.getItem('Token') || '';
+    const [header, payload, signature] = token.split('.');
+    const payloadDecoded = window.atob(payload);
+    const payloadObj = JSON.parse(payloadDecoded);
+
+    return payloadObj.user.id;
+  }
 }

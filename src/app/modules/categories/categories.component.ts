@@ -1,23 +1,27 @@
 import {Component} from '@angular/core';
-import {RouterLink} from "@angular/router";
+import {Router, RouterLink} from "@angular/router";
 import {SolidIconsModule} from "@dimaslz/ng-heroicons";
 import {CategoryService} from "../../services/shared/category.service";
+import {NgOptimizedImage} from "@angular/common";
 
 @Component({
   selector: 'app-categories',
   standalone: true,
   imports: [
     RouterLink,
-    SolidIconsModule
+    SolidIconsModule,
+    NgOptimizedImage
   ],
   templateUrl: './categories.component.html',
   styleUrl: './categories.component.scss'
 })
 export class CategoriesComponent {
+
+
   public category: string;
   public selectedCategory: string;
 
-  constructor(private categoryService: CategoryService) {
+  constructor(private categoryService: CategoryService, private router: Router) {
     this.category = '';
     this.selectedCategory = '';
   }
@@ -28,5 +32,7 @@ export class CategoriesComponent {
 
   public saveCategory() {
     this.categoryService.setCategory(this.selectedCategory);
+    console.log('Category selected: ', this.selectedCategory);
+    this.router.navigate(['/register-work']);
   }
 }

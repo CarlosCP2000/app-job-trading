@@ -1,6 +1,6 @@
-export interface Response {
+export interface ResponseOffers {
   error: string;
-  data: string;
+  data: Offer[];
   code: number;
   type: string;
   msg: string;
@@ -21,16 +21,17 @@ export interface RequestCreateOffer {
   user_id: string;
 }
 
-export interface RequestListOffer {
-  category: string;
-  user_id: string;
-}
-
 export interface RequestImageOffer {
   file_name: string;
   file_extension: string;
   image: string;
 }
+export interface RequestListOffer {
+  category: string;
+  user_id: string;
+}
+
+
 
 export interface RequestOfferAssignation {
   offer_id: number;

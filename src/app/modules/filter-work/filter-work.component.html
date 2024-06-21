@@ -19,29 +19,29 @@
         <label class="has-[:checked]:border-black has-[:checked]:text-indigo-900 has-[:checked]:ring-indigo-200 w-full b-max bg-white border-4 border-neutral-100">
           <img class="w-16 h-16" src="../../../assets/icons/pintor.png" alt="pintura">
           <span class="text-base text-neutral-900">Pintor</span>
-          <input type="checkbox" name="category" class="checked:border-indigo-500 ..." />
+          <input (click)="selectCategory('pintor')" type="radio" name="category" class="checked:border-indigo-500 ..." />
         </label>
         <label class="has-[:checked]:border-black has-[:checked]:text-indigo-900 has-[:checked]:ring-indigo-200 w-full b-max bg-white border-4 border-neutral-100">
           <img class="w-16 h-16" src="../../../assets/icons/carpintero.png" alt="pintura">
-          <span class="text-base text-neutral-900">Pintor</span>
-          <input type="checkbox" name="category" class="checked:border-indigo-500 ..." />
+          <span class="text-base text-neutral-900">Carpintero</span>
+          <input (click)="selectCategory('carpintero')" type="radio" name="category" class="checked:border-indigo-500 ..." />
         </label>
         <label class="has-[:checked]:border-black has-[:checked]:text-indigo-900 has-[:checked]:ring-indigo-200 w-full b-max bg-white border-4 border-neutral-100">
-          <img class="w-16 h-16" src="../../../assets/icons/zapatero.png" alt="pintura">
-          <span class="text-base text-neutral-900">Pintor</span>
-          <input type="checkbox" name="category" class="checked:border-indigo-500 ..." />
+          <img class="w-16 h-16" src="../../../assets/icons/zapatero.png" alt="pintura" height="65" width="65">
+          <span class="text-base text-neutral-900">Zapatero</span>
+          <input (click)="selectCategory('zapatero')" type="radio" name="category" class="checked:border-indigo-500 ..." />
         </label>
         <label class="has-[:checked]:border-black has-[:checked]:text-indigo-900 has-[:checked]:ring-indigo-200 w-full b-max bg-white border-4 border-neutral-100">
           <img class="w-16 h-16" src="../../../assets/icons/costurero.png" alt="pintura">
-          <span class="text-base text-neutral-900">Pintor</span>
-          <input type="checkbox" name="category" class="checked:border-indigo-500 ..." />
+          <span class="text-base text-neutral-900">Costurero</span>
+          <input (click)="selectCategory('costurero')" type="radio" name="category" class="checked:border-indigo-500 ..." />
         </label>
       </div>
 
     </div>
     <div class="flex items-center gap-2 rounded-2xl bg-neutral-100">
       <button routerLink="/home" class="b-subtle flex-1">Volver</button>
-      <button routerLink="/query-work" class="b-primary flex-1">Continuar</button>
+      <button (click)="saveCategory()" class="b-primary flex-1">Continuar</button>
     </div>
   </div>
 </div>

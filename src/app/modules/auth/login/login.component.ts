@@ -97,7 +97,6 @@ export class LoginComponent implements OnInit, OnDestroy {
         },
         complete: () => {
           this.loadingForm = false;
-          console.log('completo')
         }
 
       })
