@@ -35,6 +35,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
   public loadingForm: boolean;
   public errorMessage: string | null = null;
   private _subscription = new Subscription();
+  public showAlert: boolean = false;
 
   private saltRounds = 10;
 
@@ -67,7 +68,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
       identification_type: [''],
       identification_number: [''],
       favorite_phrase: [''],
-    }, { validators: this.passwordMatchValidator });
+    },{ validators: this.passwordMatchValidator });
 
     this.alertForm = { type: '', message: '', visible: false };
     this.loadingForm = false;
@@ -75,7 +76,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
 
   passwordMatchValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
     const password = control.get('password');
-    const confirmPassword = control.get('confirmPassword');
+    const confirmPassword = control.get('password_confirmation');  
     if (!password || !confirmPassword) {
       return null;
     }
@@ -86,14 +87,20 @@ export class RegisterComponent implements OnInit, OnDestroy {
     const salt = bcrypt.genSaltSync(this.saltRounds);
     return bcrypt.hashSync(password, salt);
   }
-  onSendForm() {
 
+  showTemporaryAlert() {
+    this.showAlert = true;
+    setTimeout(() => {
+      this.showAlert = false; // Oculta la alerta después de 3 segundos
+    }, 3000); // Tiempo en milisegundos (3000 ms = 3 segundos)
+  }
+
+  onSendForm() {
     if (this.registerForm.invalid) {
       this.errorMessage = 'Por favor, complete todos los campos';
       this.registerForm.markAllAsTouched()
       return;
     }
-
     this.loadingForm = true;
     const formValue = this.registerForm.value;
 
@@ -109,26 +116,30 @@ export class RegisterComponent implements OnInit, OnDestroy {
         favorite_phrase: '-',
       };
 
-      this._subscription.add(
-        this.AuthService.createUser(this.user).subscribe({
-          next: (res) => {
-            if (res.error) {
-              this.errorMessage = 'Error al iniciar sesión';
-              return;
+        this._subscription.add(
+          this.AuthService.createUser(this.user).subscribe({
+            next: (res) => {
+              if (res && (res && res.error)) {
+                this.errorMessage = 'Error al iniciar sesión';
+                this.loadingForm = false;
+                return;
+              }
+              this.router.navigate(['/login']);
+            },
+            error: (err) => {
+              this.loadingForm = false;
+              console.error('Hubo un error en el registro. Por favor, inténtelo de nuevo:', err);
+              this.errorMessage = 'Hubo un error en el registro. Por favor, inténtelo de nuevo.';
+              this.showTemporaryAlert();
+            },
+            complete: () => {
+              this.loadingForm = false;
+              console.log('completo')
             }
-            this.router.navigate(['/login']);
-          },
-          error: (err) => {
-            console.error('Hubo un error en el registro. Por favor, inténtelo de nuevo:', err);
-            this.errorMessage = 'Hubo un error en el registro. Por favor, inténtelo de nuevo.';
-          },
-          complete: () => {
-            this.loadingForm = false;
-            console.log('completo')
           }
-        }
-        )
-      );
+          )
+        );
+      
   }
 
 }

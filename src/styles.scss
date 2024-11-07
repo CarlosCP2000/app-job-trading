@@ -32,3 +32,7 @@ body {
 .i-default {
   @apply rounded-2xl h-14 text-neutral-900 text-base placeholder-neutral-300 active:opacity-80 border border-neutral-300 px-4;
 }
+
+.t-alert {
+  @apply rounded-2xl text-red-600 text-base placeholder-neutral-300 active:opacity-80;
+}

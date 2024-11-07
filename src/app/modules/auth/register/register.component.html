@@ -14,72 +14,81 @@
       <div class="flex flex-col gap-5">
         <span class="text-4xl font-questrial text-neutral-900">Registrar usuario</span>
       </div>
+      <div *ngIf="showAlert" class="text-d t-default text-red-600">{{errorMessage}}</div>
 
       <form class="" [formGroup]="registerForm">
         <div class="flex flex-col gap-5">
-
-          <input formControlName="name" placeholder="Nombres" type="text" class="i-default">
-          <div
-            *ngIf="registerForm.get('name')?.invalid && registerForm.get('name')?.touched && registerForm.get('name')?.hasError('required')"
-            class="flex flex-col gap-2">
-            <span class="text-d h-700"></span>
-            <p class="text-d t-default"><span class="text-danger">Este campo es requerido</span></p>
+          <div class="flex flex-col w-full">
+            <input formControlName="name" placeholder="Nombres" type="text" class="i-default">
+            <div *ngIf="registerForm.get('name')?.invalid && registerForm.get('name')?.touched" class="flex flex-col gap-2">
+              <span class="text-d h-700"></span>
+              <p class="text-d t-alert" *ngIf="registerForm.get('name')?.hasError('required')">
+                <span>Este campo es requerido</span>
+              </p>
+            </div>
+          </div>
+          <div class="flex flex-col w-full">
+            <input formControlName="lastname" placeholder="Apellidos" type="text" class="i-default">
+            <div
+              *ngIf="registerForm.get('lastname')?.invalid && registerForm.get('lastname')?.touched && registerForm.get('lastname')?.hasError('required')"
+              class="flex flex-col gap-2">
+              <span class="text-d h-700"></span>
+              <p class="text-d t-default text-red-600"><span>Este campo es requerido</span></p>
+            </div>
           </div>
 
-          <input formControlName="lastname" placeholder="Apellidos" type="text" class="i-default">
-          <div
-            *ngIf="registerForm.get('lastname')?.invalid && registerForm.get('lastname')?.touched && registerForm.get('lastname')?.hasError('required')"
-            class="flex flex-col gap-2">
-            <span class="text-d h-700"></span>
-            <p class="text-d t-default"><span class="text-danger">Este campo es requerido</span></p>
+          <div class="flex flex-col w-full">
+            <input formControlName="email" placeholder="Correo electrónico" type="text" class="i-default">
+            <div
+              *ngIf="registerForm.get('email')?.invalid && registerForm.get('email')?.touched && registerForm.get('email')?.hasError('required')"
+              class="flex flex-col gap-2">
+              <span class="text-d h-700"></span>
+              <p class="text-d t-default text-red-600"><span>Este campo es requerido</span></p>
+            </div>
+          </div>
+          
+          <div class="flex flex-col w-full">
+            <input formControlName="password" placeholder="Contraseña" type="password" class="i-default">
+            <div
+              *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched && registerForm.get('password')?.hasError('required')"
+              class="flex flex-col gap-2">
+              <span class="text-d h-700"></span>
+              <p class="text-d t-default text-red-600" ><span>Este campo es requerido</span></p>
+            </div>
+            <div *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched && registerForm.get('password')?.hasError('minlength')"
+              class="flex flex-col gap-2">
+              <span class="text-d h-700"></span>
+              <p class="text-d t-default text-red-600"><span>La contraseña tiene que ser mayor a 8 dígitos</span></p>
+            </div>
           </div>
 
-          <input formControlName="email" placeholder="Correo electrónico" type="text" class="i-default">
-          <div
-            *ngIf="registerForm.get('email')?.invalid && registerForm.get('email')?.touched && registerForm.get('email')?.hasError('required')"
-            class="flex flex-col gap-2">
-            <span class="text-d h-700"></span>
-            <p class="text-d t-default"><span class="text-danger">Este campo es requerido</span></p>
+          <div class="flex flex-col w-full">
+            <input formControlName="password_confirmation" placeholder="Confirmar contraseña" type="password" class="i-default">
+            <div
+              *ngIf="registerForm.get('password_confirmation')?.invalid && registerForm.get('password_confirmation')?.dirty && registerForm.get('password_confirmation')?.hasError('required')"
+              class="flex flex-col gap-2">
+              <span class="text-d h-700"></span>
+              <p class="text-d t-default text-red-600"><span>Este campo es requerido</span></p>
+            </div>
+            <div *ngIf="registerForm.hasError('mismatch') && registerForm.get('password_confirmation')?.dirty && registerForm.get('password_confirmation')?.touched"
+              class="flex flex-col gap-2">
+              <span class="text-d h-700"></span>
+              <p class="text-d t-default text-red-600"><span>Las contraseñas no coinciden</span></p>
+            </div>
           </div>
-
-          <input formControlName="password" placeholder="Contraseña" type="password" class="i-default">
-          <div
-            *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched && registerForm.get('password')?.hasError('required')"
-            class="flex flex-col gap-2">
-            <span class="text-d h-700"></span>
-            <p class="text-d t-default"><span class="text-danger">Este campo es requerido</span></p>
-          </div>
-          <div
-            *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched && registerForm.get('password')?.hasError('minLength')"
-            class="flex flex-col gap-2">
-            <span class="text-d h-700"></span>
-            <p class="text-d t-default"><span class="text-danger">Este tiene que ser mayor a 8 dígitos</span></p>
-          </div>
-
-          <input formControlName="password_confirmation" placeholder="Confirmar contraseña" type="password" class="i-default">
-          <div
-            *ngIf="registerForm.get('password_confirmation')?.invalid && registerForm.get('password_confirmation')?.touched && registerForm.get('password_confirmation')?.hasError('required')"
-            class="flex flex-col gap-2">
-            <span class="text-d h-700"></span>
-            <p class="text-d t-default"><span class="text-danger">Este campo es requerido</span></p>
-          </div>
-
-          <!--<select formControlName="identification_type" placeholder="Tipo de identificación" class="i-default">
-            <option value="DNI">DNI</option>
-            <option value="RUC">RUC</option>
-            <option value="Carnet extranjería">Carnet extranjería</option>
-          </select>
-          <input formControlName="identification_number" placeholder="Número de identificación" type="text" class="i-default">
-          <input formControlName="favorite_phrase" placeholder="Frase favorita" type="text" class="i-default">-->
         </div>
       </form>
-
-    </div>
-
-
-
-    <div class="flex flex-col gap-4 items-center">
-      <button (click)="onSendForm()" class="b-primary w-full">Registrarse</button>
+      <div class="flex flex-col gap-4 items-center">
+        <button (click)="onSendForm()" class="b-primary w-full space-x-8">
+          Registrarse
+          <div *ngIf="loadingForm">
+            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-arrow-repeat animate-spin" viewBox="0 0 16 16">
+              <path d="M11.534 7h3.932a.25.25 0 0 1 .192.41l-1.966 2.36a.25.25 0 0 1-.384 0l-1.966-2.36a.25.25 0 0 1 .192-.41zm-11 2h3.932a.25.25 0 0 0 .192-.41L2.692 6.23a.25.25 0 0 0-.384 0L.342 8.59A.25.25 0 0 0 .534 9z"/>
+              <path fill-rule="evenodd" d="M8 3c-1.552 0-2.94.707-3.857 1.818a.5.5 0 1 1-.771-.636A6.002 6.002 0 0 1 13.917 7H12.9A5.002 5.002 0 0 0 8 3zM3.1 9a5.002 5.002 0 0 0 8.757 2.182.5.5 0 1 1 .771.636A6.002 6.002 0 0 1 2.083 9H3.1z"/>
+            </svg>
+          </div>
+        </button>
+      </div>
     </div>
 
   </div>

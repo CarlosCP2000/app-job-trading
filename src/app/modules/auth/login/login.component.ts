@@ -30,6 +30,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   public loadingForm: boolean;
   public errorMessage: string | null = null;
   private _subscription = new Subscription();
+  public showAlert: boolean = false;
 
   public user: LoginRequest = {
     email: '',
@@ -92,8 +93,10 @@ export class LoginComponent implements OnInit, OnDestroy {
           this.router.navigate(['/home']);
         },
         error: (err) => {
+          this.loadingForm = false;
           console.error('Error al iniciar sesión:', err);
           this.errorMessage = 'Error al iniciar sesión';
+          this.showTemporaryAlert();
         },
         complete: () => {
           this.loadingForm = false;
@@ -101,6 +104,13 @@ export class LoginComponent implements OnInit, OnDestroy {
 
       })
     );
+  }
+
+  showTemporaryAlert() {
+    this.showAlert = true;
+    setTimeout(() => {
+      this.showAlert = false; // Oculta la alerta después de 3 segundos
+    }, 3000); // Tiempo en milisegundos (3000 ms = 3 segundos)
   }
 
   catchTokenUrl(res: ResponseLogin) {
