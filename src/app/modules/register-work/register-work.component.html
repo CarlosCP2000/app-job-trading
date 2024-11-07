@@ -20,8 +20,6 @@
 
         <input formControlName="name" placeholder="Título para la aplicación" type="text" class="i-default">
 
-        <input placeholder="Título para la publicación" type="text" class="i-default">
-
         <div class="flex items-center gap-2">
           <input formControlName="price" placeholder="Pago ofrecido por el trabajo" type="text" class="text-right i-default">
           <span class="text-lg font-questrial text-neutral-900">soles</span>
@@ -33,9 +31,6 @@
         <textarea formControlName="description" placeholder="Descripción de la oferta" class="i-default py-3" style="height: fit-content" rows="3"></textarea>
         <div class="w-full flex flex-col gap-1">
           <input type="file" (change)="onFileSelected($event)">
-          <div class="rounded-lg w-full overflow-hidden h-40">
-            <img class="w-full h-full" src="https://images.unsplash.com/photo-1513694203232-719a280e022f?q=80&w=869&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="">
-          </div>
         </div>
       </div>
       </form>

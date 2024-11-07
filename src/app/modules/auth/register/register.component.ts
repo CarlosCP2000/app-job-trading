@@ -39,11 +39,11 @@ export class RegisterComponent implements OnInit, OnDestroy {
   private saltRounds = 10;
 
   public user: RegisterRequest = {
-    username: '',
     name: '',
     lastname: '',
+    email: '',
     password: '',
-    email_notifications: '',
+    password_confirmation: '',
     identification_type: '',
     identification_number: '',
     favorite_phrase: ''
@@ -59,12 +59,11 @@ export class RegisterComponent implements OnInit, OnDestroy {
 
   constructor(private fb: FormBuilder, private router: Router, private AuthService: AuthService){
     this.registerForm = this.fb.group({
-      username: ['', [Validators.required]],
-      password: ['', [Validators.required, Validators.minLength(8)]],
-      confirmPassword: ['', [Validators.required, Validators.minLength(8)]],
       name: ['', Validators.required],
       lastname: ['', Validators.required],
-      email_notifications: [''],
+      email: [''],
+      password: ['', [Validators.required, Validators.minLength(8)]],
+      password_confirmation: ['', [Validators.required, Validators.minLength(8)]],
       identification_type: [''],
       identification_number: [''],
       favorite_phrase: [''],
@@ -100,14 +99,14 @@ export class RegisterComponent implements OnInit, OnDestroy {
 
       this.user = {
         ...this.user,
-        username: formValue.username,
-        password: this.encryptPassword(formValue.password),
         name: formValue.name,
         lastname: formValue.lastname,
-        email_notifications: formValue.username,
-        identification_type: formValue.identification_type,
+        email: formValue.email,
+        password: formValue.password,
+        password_confirmation: formValue.password,
+        identification_type: 'DNI',
         identification_number: (Math.floor(Math.random() * (999999999 - 99999999 + 1)) + 99999999).toString(),
-        favorite_phrase: formValue.favorite_phrase,
+        favorite_phrase: '-',
       };
 
       this._subscription.add(

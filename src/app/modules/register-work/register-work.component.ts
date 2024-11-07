@@ -54,6 +54,18 @@ export class RegisterWorkComponent {
     this.loadingForm = false;
   }
 
+  public getLocation(): Promise<any> {
+    return new Promise((resolve, reject) => {
+      navigator.geolocation.getCurrentPosition(resp => {
+          resolve({lng: resp.coords.longitude, lat: resp.coords.latitude});
+        },
+        err => {
+          reject(err);
+        });
+    });
+  }
+
+
   public onFileSelected(event: Event) {
     const target = event.target as HTMLInputElement;
     if (target.files && target.files[0]) {
@@ -74,6 +86,8 @@ export class RegisterWorkComponent {
 
     this.loadingForm = true;
     const formValue = this.registerForm.value;
+
+    console.log(this.getLocation());
 
     this.offer = {
       ...this.offer,

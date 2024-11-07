@@ -34,9 +34,9 @@
             <p class="text-d t-default"><span class="text-danger">Este campo es requerido</span></p>
           </div>
 
-          <input formControlName="username" placeholder="Nombre de usuario" type="text" class="i-default">
+          <input formControlName="email" placeholder="Correo electrónico" type="text" class="i-default">
           <div
-            *ngIf="registerForm.get('username')?.invalid && registerForm.get('username')?.touched && registerForm.get('username')?.hasError('required')"
+            *ngIf="registerForm.get('email')?.invalid && registerForm.get('email')?.touched && registerForm.get('email')?.hasError('required')"
             class="flex flex-col gap-2">
             <span class="text-d h-700"></span>
             <p class="text-d t-default"><span class="text-danger">Este campo es requerido</span></p>
@@ -56,9 +56,9 @@
             <p class="text-d t-default"><span class="text-danger">Este tiene que ser mayor a 8 dígitos</span></p>
           </div>
 
-          <input formControlName="confirmPassword" placeholder="Confirmar contraseña" type="password" class="i-default">
+          <input formControlName="password_confirmation" placeholder="Confirmar contraseña" type="password" class="i-default">
           <div
-            *ngIf="registerForm.get('confirmPassword')?.invalid && registerForm.get('confirmPassword')?.touched && registerForm.get('confirmPassword')?.hasError('required')"
+            *ngIf="registerForm.get('password_confirmation')?.invalid && registerForm.get('password_confirmation')?.touched && registerForm.get('password_confirmation')?.hasError('required')"
             class="flex flex-col gap-2">
             <span class="text-d h-700"></span>
             <p class="text-d t-default"><span class="text-danger">Este campo es requerido</span></p>

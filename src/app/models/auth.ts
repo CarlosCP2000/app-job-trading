@@ -18,11 +18,11 @@ export interface Auth {
 }
 
 export interface RegisterRequest {
-  username: string;
   name: string;
   lastname: string;
+  email: string;
   password: string;
-  email_notifications: string;
+  password_confirmation: string;
   identification_number: string;
   identification_type: string;
   favorite_phrase: string;
@@ -50,7 +50,7 @@ export interface Token{
 }
 
 export interface LoginRequest{
-  username: string;
+  email: string;
   password: string;
 }
 

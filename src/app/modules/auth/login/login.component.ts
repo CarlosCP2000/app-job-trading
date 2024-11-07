@@ -32,7 +32,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   private _subscription = new Subscription();
 
   public user: LoginRequest = {
-    username: '',
+    email: '',
     password: ''
   };
 
@@ -46,7 +46,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   constructor(private fb: FormBuilder, private router: Router, private AuthService: AuthService) {
     this.registerForm = this.fb.group({
-      username: ['', [Validators.required]],
+      email: ['', [Validators.required]],
       password: ['', [Validators.required]],
     });
 
@@ -77,7 +77,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
     this.user = {
       ...this.user,
-      username: formValue.username,
+      email: formValue.email,
       password: formValue.password,
     };
 

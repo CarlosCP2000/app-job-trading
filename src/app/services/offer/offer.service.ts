@@ -13,7 +13,7 @@ export class OfferService {
 
   private urlSelectOffers: string = EnvServiceProvider.useFactory().ENGINE_OFFER + '/offers';
 
-  private urlCreateOffer: string = EnvServiceProvider.useFactory().ENGINE_OFFER + '/offer/create';
+  private urlCreateOffer: string = EnvServiceProvider.useFactory().ENGINE_OFFER + '/offer';
 
   private urlUpdateOffer: string = EnvServiceProvider.useFactory().ENGINE_OFFER + '/offer/update';
 

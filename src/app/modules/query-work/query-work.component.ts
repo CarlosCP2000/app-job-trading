@@ -56,7 +56,7 @@ export class QueryWorkComponent {
     this._subscription.add(
       this.offerService.selectOffers(this.info).subscribe({
         next: (data) => {
-          this.offers = data.data;
+          this.offers = data.data.offers.data;
           console.log("Offers", this.offers);
           return this.offers;
         },

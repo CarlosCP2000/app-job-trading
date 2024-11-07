@@ -22,8 +22,9 @@ export class AuthService {
 
   public loginUser(value: LoginRequest) : Observable<ResponseLogin>{
     const data = {
-      username: value.username,
-      password: encryptText(value.password, '123456789%'),
+      email: value.email,
+      password: value.password,
+      //password: encryptText(value.password, '123456789%'),
     };
 
     return this._httpClient.post<ResponseLogin>(this.urlLoginUser, data);
