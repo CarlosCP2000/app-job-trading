@@ -3,9 +3,12 @@ import {Router, RouterLink} from "@angular/router";
 import {NgHeroiconsModule, SolidIconsModule} from "@dimaslz/ng-heroicons";
 import {CategoryService} from "../../services/shared/category.service";
 import {OfferService} from "../../services/offer/offer.service";
-import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
+import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import {Subscription} from "rxjs";
-import {RequestCreateOffer, RequestImageOffer} from "../../models/offer";
+import {Category, RequestCreateOffer, RequestImageOffer} from "../../models/offer";
+import {NgForOf, NgIf, NgOptimizedImage} from "@angular/common";
+import {LoadingScreenComponent} from "../../core/components/loading-screen/loading-screen.component";
+
 
 @Component({
   selector: 'app-register-work',
@@ -14,17 +17,32 @@ import {RequestCreateOffer, RequestImageOffer} from "../../models/offer";
     RouterLink,
     SolidIconsModule,
     NgHeroiconsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgIf,
+    NgOptimizedImage,
+    NgForOf,
+    FormsModule,
+    LoadingScreenComponent,
   ],
   templateUrl: './register-work.component.html',
   styleUrl: './register-work.component.scss'
 })
-export class RegisterWorkComponent {
+
+export class RegisterWorkComponent{
 
   public registerForm: FormGroup;
   public loadingForm: boolean;
   public errorMessage: string | null = null;
   private _subscription = new Subscription();
+
+  public categories: Category[] = [];
+  filterText = ''; // Texto para filtrar
+  filteredCategories: any[] = [];
+  selectedCategory: any = null;
+  isDropdownOpen = false;
+  showInfo: boolean = false;
+
+  public previewImages: string[] = [];
 
   public images: RequestImageOffer[] = [{
     file_name: '',
@@ -40,46 +58,118 @@ export class RegisterWorkComponent {
     type: '',
     category: '',
     image_data: this.images,
+    address: '',
     user_id: ''
   };
+
+  ngOnInit() {
+    this.getCategorys();
+  }
 
 
   constructor(private categoryService: CategoryService, private fb: FormBuilder, private router: Router, private offerService: OfferService) {
     this.registerForm = this.fb.group({
-      name: ['', [Validators.required]],
+      name: ['', [Validators.required, Validators.pattern('^[a-zA-ZÀ-ÿ\\s]+$')]],
       description: ['', [Validators.required]],
-      deadline: ['', [Validators.required]],
-      price: ['', [Validators.required]],
+      price: ['', [Validators.required, Validators.pattern('^[0-9]+$')]],
+      category: ['', [Validators.required]],
+      address: ['', [Validators.required]],
+      categoryFilter: ['']
     });
     this.loadingForm = false;
   }
 
-  public getLocation(): Promise<any> {
-    return new Promise((resolve, reject) => {
-      navigator.geolocation.getCurrentPosition(resp => {
-          resolve({lng: resp.coords.longitude, lat: resp.coords.latitude});
-        },
-        err => {
-          reject(err);
-        });
-    });
+  toggleInfo() {
+    this.showInfo = !this.showInfo;
   }
 
 
-  public onFileSelected(event: Event) {
-    const target = event.target as HTMLInputElement;
-    if (target.files && target.files[0]) {
-      const file = target.files[0];
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        this.images = [{
-          file_name: file.name,
-          file_extension: file.type,
-          image: reader.result as string
-        }];
-      };
-      reader.readAsDataURL(file);
+  private getCategorys(): void {
+
+    this._subscription.add(
+      this.offerService.selectCategory().subscribe({
+        next: (data) => {
+          this.categories = data.data.categories
+          return this.categories;
+        },
+        error: (err) => {
+          console.error('Error:', err);
+        },
+        complete: () => {
+          console.log('complete');
+        }
+      })
+    );
+  }
+
+  filterCategories(event: any) {
+    const query = event.target.value.toLowerCase();
+    this.filteredCategories = this.categories.filter((category) =>
+      category.name.toLowerCase().includes(query)
+    );
+  }
+
+  selectCategory(category: any) {
+    this.selectedCategory = category;
+    this.isDropdownOpen = false;
+    this.registerForm.get('category')?.setValue(category);
+  }
+
+  toggleDropdown(event: any) {
+    this.isDropdownOpen = !this.isDropdownOpen;
+    if (this.isDropdownOpen) {
+      this.filteredCategories = this.categories;
     }
+  }
+
+
+  // public getLocation(): Promise<any> {
+  //   return new Promise((resolve, reject) => {
+  //     navigator.geolocation.getCurrentPosition(resp => {
+  //         resolve({lng: resp.coords.longitude, lat: resp.coords.latitude});
+  //       },
+  //       err => {
+  //         reject(err);
+  //       });
+  //   });
+  // }
+
+  public onFilesSelected(event: Event) {
+    const target = event.target as HTMLInputElement;
+    if (target.files) {
+
+      Array.from(target.files).forEach(file => {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          const imageData = (reader.result as string).split(',')[1];
+
+          const imageExists = this.images.some(
+            img => img.file_name === file.name && img.image === imageData
+          );
+
+          if (!imageExists) {
+            this.images.push({
+              file_name: file.name,
+              file_extension: file.type,
+              image: imageData,
+            });
+          }
+          const result = reader.result as string;
+
+          if (result) {
+            this.previewImages.push(result);
+          } else {
+            console.warn("No se pudo leer el archivo.");
+          }
+
+        };
+        reader.readAsDataURL(file);
+      });
+    }
+  }
+
+  public removeImage(index: number) {
+    this.previewImages.splice(index, 1);
   }
 
   public onSendForm() {
@@ -87,24 +177,22 @@ export class RegisterWorkComponent {
     this.loadingForm = true;
     const formValue = this.registerForm.value;
 
-    console.log(this.getLocation());
-
     this.offer = {
       ...this.offer,
       name: formValue.name,
       description: formValue.description,
-      deadline: Number(formValue.deadline),
+      deadline: 0,
       price: formValue.price,
       type: "",
-      category: this.categoryService.getCategory(),
+      category: formValue.category,
       image_data: this.images,
+      address: formValue.address,
       user_id: this.offerService.getUserId()
     };
 
     if (this.registerForm.invalid) {
       this.errorMessage = 'Por favor, complete todos los campos';
       this.registerForm.markAllAsTouched()
-      console.log(this.registerForm.value)
       return;
     }
 
@@ -123,7 +211,6 @@ export class RegisterWorkComponent {
         },
         complete: () => {
           this.loadingForm = false;
-          console.log('completo')
         }
 
       })

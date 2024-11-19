@@ -15,7 +15,7 @@ export class TokenInterceptor implements HttpInterceptor {
     request: HttpRequest<unknown>,
     next: HttpHandler
   ): Observable<HttpEvent<unknown>> {
-    const token = sessionStorage.getItem('Token');
+    const token = sessionStorage.getItem('access-token');
     let req = request;
 
     if (token) {

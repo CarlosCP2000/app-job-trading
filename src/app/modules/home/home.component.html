@@ -18,13 +18,13 @@
 
       <div class="grid grid-cols-1 gap-5">
         <div class="flex-1">
-          <button routerLink="/categories" class="w-full b-max bg-violet-100 border-2 border-violet-200">
+          <button routerLink="/register-work" class="w-full b-max bg-violet-100 border-2 border-violet-200">
             <img src="assets/pictures/pic-ofrecer-trabajo.png" alt="OFRECER">
             <span class="text-base text-neutral-900">Ofrecer trabajo</span>
           </button>
         </div>
         <div class="flex-1">
-          <button routerLink="/filter-work" class="w-full b-max bg-pink-100 border-2 border-pink-200">
+          <button routerLink="/query-work" class="w-full b-max bg-pink-100 border-2 border-pink-200">
             <img src="assets/pictures/pic-buscar-trabajo.png" alt="BUSCAR">
             <span class="text-base text-neutral-900">Buscar trabajo</span>
           </button>
@@ -33,4 +33,5 @@
 
     </div>
   </div>
+  <app-loading-screen *ngIf="loadingForm"></app-loading-screen>
 </div>

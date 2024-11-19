@@ -32,7 +32,7 @@ export class AuthService {
 
   public getUserId(): void {
 
-    const token = localStorage.getItem('Token') || '';
+    const token = sessionStorage.getItem('access-token') || '';
     const [header, payload, signature] = token.split('.');
     const payloadDecoded = window.atob(payload);
     const payloadObj = JSON.parse(payloadDecoded);

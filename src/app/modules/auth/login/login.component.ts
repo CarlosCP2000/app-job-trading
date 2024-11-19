@@ -8,6 +8,7 @@ import CryptoJS from 'crypto-js';
 import {AuthService} from '../../../services/auth/auth.service';
 
 import {NgIf} from "@angular/common";
+import {LoadingScreenComponent} from "../../../core/components/loading-screen/loading-screen.component";
 
 
 @Component({
@@ -15,6 +16,7 @@ import {NgIf} from "@angular/common";
   standalone: true,
   imports: [
     ReactiveFormsModule,
+    LoadingScreenComponent,
     SolidIconsModule,
     RouterLink,
     NgIf
@@ -32,6 +34,8 @@ export class LoginComponent implements OnInit, OnDestroy {
   private _subscription = new Subscription();
   public showAlert: boolean = false;
 
+  public passwordVisible: boolean = false;
+
   public user: LoginRequest = {
     email: '',
     password: ''
@@ -42,12 +46,12 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    localStorage.removeItem('Token');
+    sessionStorage.removeItem('access-token');
   }
 
   constructor(private fb: FormBuilder, private router: Router, private AuthService: AuthService) {
     this.registerForm = this.fb.group({
-      email: ['', [Validators.required]],
+      email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required]],
     });
 
@@ -55,13 +59,13 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.loadingForm = false;
   }
 
+  togglePasswordVisibility() {
+    this.passwordVisible = !this.passwordVisible;
+  }
+
   private generateRandomIV(): string {
-    // Generar un IV aleatorio de 16 bytes
     const iv = CryptoJS.lib.WordArray.random(16);
-
-    // Convertir el IV a formato hexadecimal
     const ivHex = iv.toString(CryptoJS.enc.Hex);
-
     return ivHex;
   }
 
@@ -116,7 +120,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   catchTokenUrl(res: ResponseLogin) {
     const token = res.data.token;
     if (token) {
-      localStorage.setItem('Token', token);
+      sessionStorage.setItem('access-token', token);
     }
   }
 

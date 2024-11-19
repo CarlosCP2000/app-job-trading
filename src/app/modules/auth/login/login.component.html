@@ -1,7 +1,8 @@
+<!-- Archivo: `src/app/modules/auth/login/login.component.html` -->
 <div class="w-full h-screen flex flex-col p-10 gap-10">
   <div class="flex items-center justify-between">
     <div>
-      <button class="b-subtle" routerLink="/">
+      <button class="text-gray-800 rounded" routerLink="/">
         <arrow-uturn-left-solid-icon [size]="32"></arrow-uturn-left-solid-icon>
       </button>
     </div>
@@ -9,56 +10,62 @@
       <img src="/assets/logos/logo-job-trading.svg" alt="JOB-TRADING" class="h-10">
     </div>
   </div>
-  <div class="flex-1 flex flex-col justify-between">
-    <div class="flex flex-col gap-10">
-      <div class="flex flex-col gap-5">
-        <span class="text-4xl font-questrial text-neutral-900">Vamos a iniciar sesión.</span>
-        <span class="text-xl text-neutral-900">¡Bienvenido de nuevo, te extrañamos!</span>
-      </div>
+  <div class="flex-1 flex flex-col justify-between overflow-hidden gap-5">
+    <div class="flex flex-col gap-5">
+      <span class="text-4xl font-questrial text-neutral-900">Vamos a iniciar sesión.</span>
+      <span class="text-xl text-neutral-900">¡Bienvenido de nuevo, te extrañamos!</span>
+    </div>
 
-      <form class="" [formGroup]="registerForm">
-        <div class="flex flex-col gap-5">
-          <div class="flex flex-col w-full">
-            <input formControlName="email" placeholder="Correo electrónico" type="text" class="i-default">
-            <div
-              *ngIf="registerForm.get('email')?.invalid && registerForm.get('email')?.touched && registerForm.get('email')?.hasError('required')"
-              class="flex flex-col gap-2">
-              <span class="text-d h-700"></span>
-              <p class="text-d t-alert"><span class="text-danger">Este campo es requerido</span></p>
+    <div class="flex flex-col gap-5 flex-grow overflow-hidden">
+      <form [formGroup]="registerForm" class="flex flex-col gap-2">
+        <div class="gap-3 grid">
+
+          <div class="flex flex-col ro">
+            <label class="block text-sm font-medium text-gray-700">Correo electrónico</label>
+            <div class="relative">
+              <input formControlName="email" placeholder="Correo electrónico" type="text" class="w-full p-2 border border-gray-300 rounded-2xl" required>
+            </div>
+            <div class="text-red-600 text-sm">
+              <p *ngIf="registerForm.get('email')?.touched && registerForm.get('email')?.hasError('required')">
+                Campo requerido
+              </p>
+              <p *ngIf="registerForm.get('email')?.touched && registerForm.get('email')?.hasError('pattern')">
+                Número celular inválido
+              </p>
             </div>
           </div>
 
-          <div class="flex flex-col w-full">
-            <input formControlName="password" placeholder="Contraseña" type="password" class="i-default">
-            <div 
-              *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched && registerForm.get('password')?.hasError('required')"
-              class="flex flex-col gap-2">
-              <span class="text-d h-700"></span>
-              <p class="text-d t-alert"><span class="text-danger">La contraseña es requerida</span></p>
+          <div class="flex flex-col">
+            <label class="block text-sm font-medium text-gray-700">Contraseña</label>
+            <div class="relative">
+              <input formControlName="password" placeholder="Contraseña" [type]="passwordVisible ? 'text' : 'password'" class="w-full p-2 border border-gray-300 rounded-2xl" required>
+            </div>
+            <div class="text-red-600 text-sm">
+              <p *ngIf="registerForm.get('password')?.touched && registerForm.get('password')?.hasError('required')">
+                Campo requerido
+              </p>
             </div>
           </div>
-          <div *ngIf="showAlert">
-            <p class="text-d t-alert"><span class="text-danger">No se puedo iniciar sesión, intente nuevamente</span></p>
+
+          <div class="flex items-center">
+            <input type="checkbox" id="showPassword" (change)="togglePasswordVisibility()" [checked]="passwordVisible">
+            <label for="showPassword" class="ml-2">Mostrar Contraseña</label>
+          </div>
+
+          <div *ngIf="showAlert" class="text-red-600">
+            <p>No se puedo iniciar sesión, intente nuevamente</p>
           </div>
         </div>
       </form>
-
     </div>
-
-    <div class="flex flex-col gap-4 items-center">
-      <p>
-        ¿No tiene cuenta?, <a routerLink="/register" class="underline">Regístrese</a>
-      </p>
-      <button (click)="onSendForm()" class="b-primary w-full">
+    <p class="text-center">
+      ¿No tiene cuenta?, <a routerLink="/register" class="underline">Regístrese</a>
+    </p>
+    <div class="flex items-center gap-2 rounded-3xl bg-neutral-100">
+      <button (click)="onSendForm()" class="bg-black text-white py-2 px-4 rounded flex-1 flex items-center justify-center rounded-2xl">
         Iniciar sesión
-        <div *ngIf="loadingForm">
-          <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-arrow-repeat animate-spin" viewBox="0 0 16 16">
-            <path d="M11.534 7h3.932a.25.25 0 0 1 .192.41l-1.966 2.36a.25.25 0 0 1-.384 0l-1.966-2.36a.25.25 0 0 1 .192-.41zm-11 2h3.932a.25.25 0 0 0 .192-.41L2.692 6.23a.25.25 0 0 0-.384 0L.342 8.59A.25.25 0 0 0 .534 9z"/>
-            <path fill-rule="evenodd" d="M8 3c-1.552 0-2.94.707-3.857 1.818a.5.5 0 1 1-.771-.636A6.002 6.002 0 0 1 13.917 7H12.9A5.002 5.002 0 0 0 8 3zM3.1 9a5.002 5.002 0 0 0 8.757 2.182.5.5 0 1 1 .771.636A6.002 6.002 0 0 1 2.083 9H3.1z"/>
-          </svg>
-        </div>
       </button>
     </div>
-
   </div>
+  <app-loading-screen *ngIf="loadingForm"></app-loading-screen>
 </div>

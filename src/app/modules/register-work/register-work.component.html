@@ -1,7 +1,8 @@
-<div class="w-full h-screen flex flex-col p-10 gap-10">
+<!-- Archivo: `src/app/modules/register-work/register-work.component.html` -->
+<div class="w-full h-screen flex flex-col p-10 gap-10 overflow-auto scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-200">
   <div class="flex items-center justify-between">
     <div>
-      <button class="b-subtle" routerLink="/home">
+      <button class="text-gray-800 rounded-2xl" routerLink="/home">
         <x-mark-solid-icon [size]="32"></x-mark-solid-icon>
       </button>
     </div>
@@ -9,38 +10,195 @@
       <img src="assets/logos/logo-job-trading.svg" alt="JOB-TRADING" class="h-10">
     </div>
   </div>
-  <div class="flex-1 flex flex-col justify-between">
+  <div class="flex-1 flex flex-col justify-between overflow-hidden gap-5">
     <div class="flex flex-col gap-5">
       <span class="text-4xl font-questrial text-neutral-900">Registrar oferta de trabajo</span>
     </div>
-    <div class="flex flex-col gap-10 overflow-y-auto" style="height: calc(100vh - 400px)">
 
-      <form action="" [formGroup]="registerForm">
-      <div class="gap-5 grid">
+    <div class="flex flex-col gap-5 flex-grow overflow-y-auto h-130 scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-200 p-4">
+      <form action="" [formGroup]="registerForm" class="flex flex-col gap-2">
+        <div class="gap-3 grid">
 
-        <input formControlName="name" placeholder="Título para la aplicación" type="text" class="i-default">
+          <div class="flex flex-col">
+            <label class="block text-sm font-medium text-gray-700">Título</label>
+            <div class="relative">
+              <input
+                formControlName="name"
+                placeholder="Título"
+                type="text"
+                class="w-full p-2 border border-gray-300 rounded-2xl"
+                required
+              />
+            </div>
+            <div class="text-red-600 text-sm">
+              <p *ngIf="registerForm.get('name')?.touched && registerForm.get('name')?.hasError('required')">
+                El campo título es requerido.
+              </p>
+              <p *ngIf="registerForm.get('name')?.touched && registerForm.get('name')?.hasError('pattern')">
+                Solo se permiten letras y espacios.
+              </p>
+            </div>
+          </div>
 
-        <div class="flex items-center gap-2">
-          <input formControlName="price" placeholder="Pago ofrecido por el trabajo" type="text" class="text-right i-default">
-          <span class="text-lg font-questrial text-neutral-900">soles</span>
+          <div class="flex flex-col">
+            <label class="block text-sm font-medium text-gray-700">Pago</label>
+            <div class="relative">
+              <span class="absolute left-3 top-1/2 transform -translate-y-1/2">S/.</span>
+              <input
+                formControlName="price"
+                placeholder="Pago"
+                type="text"
+                class="w-full pl-10 p-2 border border-gray-300 rounded-2xl text-left"
+                required
+              />
+            </div>
+            <div class="text-red-600 text-sm">
+              <div class="text-red-600 text-sm">
+                <p *ngIf="registerForm.get('price')?.touched && registerForm.get('price')?.hasError('required')">
+                  El campo pago es requerido.
+                </p>
+                <p *ngIf="registerForm.get('price')?.touched && registerForm.get('price')?.hasError('pattern')">
+                  Ingrese un pago válido.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="relative flex flex-col">
+            <label class="block text-sm font-medium text-gray-700">Categoría</label>
+            <div>
+              <div (click)="toggleDropdown($event)" class="relative">
+                <button
+                  class="w-full bg-white border border-gray-300 rounded-2xl-md px-4 py-2 text-left shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 rounded-2xl"
+                >
+                  {{ selectedCategory ? selectedCategory.name : 'Selecciona una categoría' }}
+                </button>
+              </div>
+              <ul *ngIf="isDropdownOpen"
+                  class="absolute z-10 w-full bg-white border border-gray-300 rounded-md shadow-lg max-h-40 overflow-y-auto">
+                <li class="sticky top-0 bg-white z-20">
+                  <input
+                    type="text"
+                    [(ngModel)]="filterText"
+                    (input)="filterCategories($event)"
+                    class="w-full px-4 py-2 border-b border-gray-200 focus:outline-none"
+                    placeholder="Filtrar categorías..."
+                  />
+                </li>
+                <li
+                  *ngFor="let category of filteredCategories"
+                  (click)="selectCategory(category)"
+                  class="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                >
+                  {{ category.name }}
+                </li>
+              </ul>
+            </div>
+            <div
+              *ngIf="registerForm.get('category')?.hasError('required') && registerForm.get('category')?.touched"
+              class="text-red-600 text-sm">
+              El campo categoría es requerido!.
+            </div>
+          </div>
+
+          <div class="flex flex-col">
+            <label class="block text-sm font-medium text-gray-700">Dirección</label>
+            <div class="relative">
+              <input
+                formControlName="address"
+                placeholder="Dirección"
+                type="text"
+                class="w-full p-2 border border-gray-300 rounded-2xl"
+                required
+              />
+            </div>
+            <div class="text-red-600 text-sm">
+              <p *ngIf="registerForm.get('address')?.touched && registerForm.get('address')?.hasError('required')">
+                El campo dirección es requerido.
+              </p>
+            </div>
+          </div>
+
+          <div class="flex flex-col">
+            <label class="block text-sm font-medium text-gray-700 flex items-center">
+              Descripción
+              <span class="ml-1 relative inline-block ">
+                <svg
+                  (mouseenter)="showInfo = true"
+                  (mouseleave)="showInfo = false"
+                  (click)="showInfo = !showInfo"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  class="w-4 h-4 cursor-pointer text-yellow-600 hover:text-gray-700 "
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M12 9v2m0 4h.01M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"
+                  />
+                </svg>
+                <div *ngIf="showInfo" class="absolute left-0 mt-2 w-52 p-2 bg-white border border-gray-300 rounded-2xl shadow-lg z-10">
+                  <p class="text-sm text-gray-700">Ingrese una descripción detallada del trabajo que está ofreciendo.</p>
+                </div>
+              </span>
+            </label>
+            <div class="relative">
+              <textarea
+                formControlName="description"
+                placeholder="Descripción"
+                class="w-full p-2 border border-gray-300 rounded-2xl py-3 resize-none"
+                rows="3"
+                required
+              ></textarea>
+            </div>
+            <div class="text-red-600 text-sm">
+              <p
+                *ngIf="registerForm.get('description')?.touched && registerForm.get('description')?.hasError('required')">
+                El campo descripción es requerido.
+              </p>
+            </div>
+          </div>
+
+          <div class="w-full flex flex-col gap-4 p-4 border rounded-2xl-lg shadow-md bg-gray-50 rounded-2xl">
+            <input
+              type="file"
+              id="file-input"
+              (change)="onFilesSelected($event)"
+              class="hidden"
+              multiple
+            />
+            <label for="file-input" class="inline-block py-2 px-4 border border-gray-300 rounded-2xl cursor-pointer">
+              <span class="block text-sm font-medium text-gray-700">Seleccionar imágenes</span>
+            </label>
+            <div class="w-full flex flex-wrap items-center justify-center mt-4">
+              <ng-container *ngIf="previewImages.length > 0; else noImages">
+                <div *ngFor="let preview of previewImages; let i = index" class="relative mx-2 my-2">
+                  <div class="relative inline-block">
+                    <img [src]="preview" alt="Vista previa de imagen" width="150" height="150"
+                         class="object-contain h-32 w-32 rounded-2xl"/>
+                    <button (click)="removeImage(i)"
+                            class="absolute top-1 right-1 w-5 h-5 text-white rounded-full flex items-center justify-center align-middle bg-gray-700">
+                      <x-mark-solid-icon [size]="16"></x-mark-solid-icon>
+                    </button>
+                  </div>
+                </div>
+              </ng-container>
+              <ng-template #noImages>
+                <p class="text-gray-500 italic">No hay imágenes seleccionadas</p>
+              </ng-template>
+            </div>
+          </div>
+
         </div>
-        <div class="flex items-center gap-2">
-          <input formControlName="deadline" placeholder="Plazo para concretar el trabajo" type="text" class="text-right i-default">
-          <span class="text-lg font-questrial text-neutral-900">días</span>
-        </div>
-        <textarea formControlName="description" placeholder="Descripción de la oferta" class="i-default py-3" style="height: fit-content" rows="3"></textarea>
-        <div class="w-full flex flex-col gap-1">
-          <input type="file" (change)="onFileSelected($event)">
-        </div>
-      </div>
       </form>
     </div>
-
-    <div class="flex items-center gap-2 mt-6 rounded-2xl bg-neutral-100">
-      <button routerLink="/categories" class="b-subtle flex-1">Volver</button>
-
-      <button (click)="onSendForm() "class="b-primary flex-1">Publicar</button>
-
+    <div class="flex items-center gap-2 mt-6 rounded-2xl bg-gray-200">
+      <button routerLink="/home" class="bg-gray-200 text-gray-800 py-2 px-2 rounded-2xl flex-1">Cancelar</button>
+      <button (click)="onSendForm()" class="bg-black text-white py-2 px-4 rounded-2xl flex-1">Publicar</button>
     </div>
   </div>
+  <app-loading-screen *ngIf="loadingForm"></app-loading-screen>
 </div>

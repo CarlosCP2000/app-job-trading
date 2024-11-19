@@ -19,6 +19,7 @@
     "@angular/platform-browser-dynamic": "^17.3.0",
     "@angular/router": "^17.3.0",
     "@dimaslz/ng-heroicons": "^1.17.0",
+    "@ng-select/ng-select": "^12.0.0",
     "bcryptjs": "^2.4.3",
     "crypto-js": "^4.2.0",
     "rxjs": "~7.8.0",

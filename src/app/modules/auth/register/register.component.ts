@@ -15,18 +15,20 @@ import {AlertForm, RegisterRequest} from '../../../models/auth';
 import {SolidIconsModule} from "@dimaslz/ng-heroicons";
 import bcrypt from "bcryptjs";
 import {NgIf} from "@angular/common";
+import {LoadingScreenComponent} from "../../../core/components/loading-screen/loading-screen.component";
 
 
 @Component({
   selector: 'app-register',
   standalone: true,
   templateUrl: './register.component.html',
-  imports: [
-    ReactiveFormsModule,
-    SolidIconsModule,
-    RouterLink,
-    NgIf
-  ],
+    imports: [
+        ReactiveFormsModule,
+        SolidIconsModule,
+        RouterLink,
+        NgIf,
+        LoadingScreenComponent
+    ],
   styleUrls: ['./register.component.scss']
 })
 export class RegisterComponent implements OnInit, OnDestroy {
@@ -36,6 +38,8 @@ export class RegisterComponent implements OnInit, OnDestroy {
   public errorMessage: string | null = null;
   private _subscription = new Subscription();
   public showAlert: boolean = false;
+
+  public passwordVisible: boolean = false;
 
   private saltRounds = 10;
 
@@ -47,7 +51,8 @@ export class RegisterComponent implements OnInit, OnDestroy {
     password_confirmation: '',
     identification_type: '',
     identification_number: '',
-    favorite_phrase: ''
+    favorite_phrase: '',
+    cellphone: ''
   };
 
   ngOnDestroy(): void {
@@ -55,33 +60,40 @@ export class RegisterComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    localStorage.removeItem('Token');
+    sessionStorage.removeItem('access-token');
   }
 
   constructor(private fb: FormBuilder, private router: Router, private AuthService: AuthService){
     this.registerForm = this.fb.group({
-      name: ['', Validators.required],
-      lastname: ['', Validators.required],
-      email: [''],
+      name: ['', [Validators.required, Validators.pattern('^[a-zA-ZÀ-ÿ\\s]+$')]],
+      lastname: ['', [Validators.required, Validators.pattern('^[a-zA-ZÀ-ÿ\\s]+$')]],
+      email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(8)]],
-      password_confirmation: ['', [Validators.required, Validators.minLength(8)]],
+      password_confirmation: ['', [Validators.required]],
       identification_type: [''],
       identification_number: [''],
       favorite_phrase: [''],
-    },{ validators: this.passwordMatchValidator });
+      cellphone: ['', [Validators.required, Validators.pattern('^9[0-9]{8}$')]],
+    },{ validator: this.passwordMatchValidator });
 
     this.alertForm = { type: '', message: '', visible: false };
     this.loadingForm = false;
   }
 
-  passwordMatchValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
-    const password = control.get('password');
-    const confirmPassword = control.get('password_confirmation');  
-    if (!password || !confirmPassword) {
-      return null;
+  passwordMatchValidator(formGroup: any) {
+    const password = formGroup.get('password');
+    const confirmPassword = formGroup.get('password_confirmation');
+
+    if (password && confirmPassword && password.value !== confirmPassword.value) {
+      confirmPassword.setErrors({ mismatch: true });
+    } else {
+      confirmPassword.setErrors(null);
     }
-    return password.value === confirmPassword.value ? null : { mismatch: true };
-  };
+  }
+
+  togglePasswordVisibility() {
+    this.passwordVisible = !this.passwordVisible;
+  }
 
   private encryptPassword(password: string): string {
     const salt = bcrypt.genSaltSync(this.saltRounds);
@@ -98,6 +110,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
   onSendForm() {
     if (this.registerForm.invalid) {
       this.errorMessage = 'Por favor, complete todos los campos';
+      console.log(this.errorMessage);
       this.registerForm.markAllAsTouched()
       return;
     }
@@ -112,8 +125,9 @@ export class RegisterComponent implements OnInit, OnDestroy {
         password: formValue.password,
         password_confirmation: formValue.password,
         identification_type: 'DNI',
-        identification_number: (Math.floor(Math.random() * (999999999 - 99999999 + 1)) + 99999999).toString(),
+        identification_number: '-',
         favorite_phrase: '-',
+        cellphone: formValue.cellphone,
       };
 
         this._subscription.add(
@@ -139,7 +153,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
           }
           )
         );
-      
+
   }
 
 }

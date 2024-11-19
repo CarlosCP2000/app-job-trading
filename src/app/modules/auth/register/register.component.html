@@ -1,7 +1,8 @@
+<!-- Archivo: `src/app/modules/auth/register/register.component.html` -->
 <div class="w-full h-screen flex flex-col p-10 gap-10">
   <div class="flex items-center justify-between">
     <div>
-      <button class="b-subtle" routerLink="/">
+      <button class="text-gray-800 rounded" routerLink="/">
         <arrow-uturn-left-solid-icon [size]="32"></arrow-uturn-left-solid-icon>
       </button>
     </div>
@@ -9,87 +10,124 @@
       <img src="/assets/logos/logo-job-trading.svg" alt="JOB-TRADING" class="h-10">
     </div>
   </div>
-  <div class="flex-1 flex flex-col justify-between">
-    <div class="flex flex-col gap-10">
-      <div class="flex flex-col gap-5">
-        <span class="text-4xl font-questrial text-neutral-900">Registrar usuario</span>
-      </div>
-      <div *ngIf="showAlert" class="text-d t-default text-red-600">{{errorMessage}}</div>
+  <div class="flex-1 flex flex-col justify-between overflow-hidden gap-5">
+    <div class="flex flex-col gap-5">
+      <span class="text-4xl font-questrial text-neutral-900">Registrar usuario</span>
+    </div>
 
-      <form class="" [formGroup]="registerForm">
-        <div class="flex flex-col gap-5">
-          <div class="flex flex-col w-full">
-            <input formControlName="name" placeholder="Nombres" type="text" class="i-default">
-            <div *ngIf="registerForm.get('name')?.invalid && registerForm.get('name')?.touched" class="flex flex-col gap-2">
-              <span class="text-d h-700"></span>
-              <p class="text-d t-alert" *ngIf="registerForm.get('name')?.hasError('required')">
-                <span>Este campo es requerido</span>
+    <div class="flex flex-col gap-5 flex-grow overflow-hidden">
+      <form [formGroup]="registerForm" class="flex flex-col gap-2">
+        <div class="gap-3 grid">
+
+          <div class="flex flex-col">
+            <label class="block text-sm font-medium text-gray-700">Nombres</label>
+            <div class="relative">
+              <input formControlName="name" placeholder="Nombres" type="text" class="w-full p-2 border border-gray-300 rounded-2xl" required>
+            </div>
+            <div class="text-red-600 text-sm">
+              <p *ngIf="registerForm.get('name')?.touched && registerForm.get('name')?.hasError('required')">
+                Campo requerido
+              </p>
+              <p *ngIf="registerForm.get('name')?.touched && registerForm.get('name')?.hasError('pattern')">
+                Nombres inválido
               </p>
             </div>
           </div>
-          <div class="flex flex-col w-full">
-            <input formControlName="lastname" placeholder="Apellidos" type="text" class="i-default">
-            <div
-              *ngIf="registerForm.get('lastname')?.invalid && registerForm.get('lastname')?.touched && registerForm.get('lastname')?.hasError('required')"
-              class="flex flex-col gap-2">
-              <span class="text-d h-700"></span>
-              <p class="text-d t-default text-red-600"><span>Este campo es requerido</span></p>
+
+          <div class="flex flex-col">
+            <label class="block text-sm font-medium text-gray-700">Apellidos</label>
+            <div class="relative">
+              <input formControlName="lastname" placeholder="Apellidos" type="text" class="w-full p-2 border border-gray-300 rounded-2xl" required>
+            </div>
+            <div class="text-red-600 text-sm">
+              <p *ngIf="registerForm.get('lastname')?.touched && registerForm.get('lastname')?.hasError('required')">
+                Campo requerido
+              </p>
+              <p *ngIf="registerForm.get('lastname')?.touched && registerForm.get('lastname')?.hasError('pattern')">
+                Apellidos inválido
+              </p>
             </div>
           </div>
 
-          <div class="flex flex-col w-full">
-            <input formControlName="email" placeholder="Correo electrónico" type="text" class="i-default">
-            <div
-              *ngIf="registerForm.get('email')?.invalid && registerForm.get('email')?.touched && registerForm.get('email')?.hasError('required')"
-              class="flex flex-col gap-2">
-              <span class="text-d h-700"></span>
-              <p class="text-d t-default text-red-600"><span>Este campo es requerido</span></p>
+          <div class="flex flex-col">
+            <label class="block text-sm font-medium text-gray-700">Número de celular</label>
+            <div class="relative">
+              <span class="absolute left-3 top-1/2 transform -translate-y-1/2">+51</span>
+              <input formControlName="cellphone" placeholder="Número de celular" type="text" class="w-full pl-10 p-2 border border-gray-300 rounded-2xl" required>
             </div>
-          </div>
-          
-          <div class="flex flex-col w-full">
-            <input formControlName="password" placeholder="Contraseña" type="password" class="i-default">
-            <div
-              *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched && registerForm.get('password')?.hasError('required')"
-              class="flex flex-col gap-2">
-              <span class="text-d h-700"></span>
-              <p class="text-d t-default text-red-600" ><span>Este campo es requerido</span></p>
-            </div>
-            <div *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched && registerForm.get('password')?.hasError('minlength')"
-              class="flex flex-col gap-2">
-              <span class="text-d h-700"></span>
-              <p class="text-d t-default text-red-600"><span>La contraseña tiene que ser mayor a 8 dígitos</span></p>
+            <div class="text-red-600 text-sm">
+              <p *ngIf="registerForm.get('cellphone')?.touched && registerForm.get('cellphone')?.hasError('required')">
+                Campo requerido
+              </p>
+              <p *ngIf="registerForm.get('cellphone')?.touched && registerForm.get('cellphone')?.hasError('pattern')">
+                Número de celular inválido
+              </p>
             </div>
           </div>
 
-          <div class="flex flex-col w-full">
-            <input formControlName="password_confirmation" placeholder="Confirmar contraseña" type="password" class="i-default">
-            <div
-              *ngIf="registerForm.get('password_confirmation')?.invalid && registerForm.get('password_confirmation')?.dirty && registerForm.get('password_confirmation')?.hasError('required')"
-              class="flex flex-col gap-2">
-              <span class="text-d h-700"></span>
-              <p class="text-d t-default text-red-600"><span>Este campo es requerido</span></p>
+          <div class="flex flex-col">
+            <label class="block text-sm font-medium text-gray-700">Correo electrónico</label>
+            <div class="relative">
+              <input formControlName="email" placeholder="Correo electrónico" type="text" class="w-full p-2 border border-gray-300 rounded-2xl" required>
             </div>
-            <div *ngIf="registerForm.hasError('mismatch') && registerForm.get('password_confirmation')?.dirty && registerForm.get('password_confirmation')?.touched"
-              class="flex flex-col gap-2">
-              <span class="text-d h-700"></span>
-              <p class="text-d t-default text-red-600"><span>Las contraseñas no coinciden</span></p>
+            <div class="text-red-600 text-sm">
+              <p *ngIf="registerForm.get('email')?.touched && registerForm.get('email')?.hasError('required')">
+                Campo requerido
+              </p>
+              <p *ngIf="registerForm.get('email')?.touched && registerForm.get('email')?.hasError('email')">
+                Correo inválido
+              </p>
             </div>
+          </div>
+
+          <div class="flex flex-col">
+            <label class="block text-sm font-medium text-gray-700">Contraseña</label>
+            <div class="relative">
+              <input formControlName="password" placeholder="Contraseña" [type]="passwordVisible ? 'text' : 'password'" class="w-full p-2 border border-gray-300 rounded-2xl" required>
+            </div>
+            <div class="text-red-600 text-sm">
+              <p *ngIf="registerForm.get('password')?.touched && registerForm.get('password')?.hasError('required')">
+                Campo requerido
+              </p>
+              <p *ngIf="registerForm.get('password')?.touched && registerForm.get('password')?.hasError('minlength')">
+                La contraseña tiene que ser mayor a 8 dígitos
+              </p>
+            </div>
+          </div>
+
+          <div class="flex flex-col">
+            <label class="block text-sm font-medium text-gray-700">Confirmar contraseña</label>
+            <div class="relative">
+              <input formControlName="password_confirmation" placeholder="Confirmar contraseña" [type]="passwordVisible ? 'text' : 'password'" class="w-full p-2 border border-gray-300 rounded-2xl" required>
+            </div>
+            <div class="text-red-600 text-sm">
+              <p *ngIf="registerForm.get('password_confirmation')?.touched && registerForm.get('password_confirmation')?.hasError('required')">
+                Este campo es requerido
+              </p>
+              <p *ngIf="registerForm.get('password_confirmation')?.touched && registerForm.get('password_confirmation')?.hasError('mismatch')">
+                Las contraseñas no coinciden
+              </p>
+            </div>
+          </div>
+
+          <div class="flex items-center">
+            <input type="checkbox" id="showPassword" (change)="togglePasswordVisibility()" [checked]="passwordVisible">
+            <label for="showPassword" class="ml-2">Mostrar Contraseña</label>
+          </div>
+
+          <div *ngIf="showAlert" class="text-red-600">
+            {{errorMessage}}
           </div>
         </div>
       </form>
-      <div class="flex flex-col gap-4 items-center">
-        <button (click)="onSendForm()" class="b-primary w-full space-x-8">
-          Registrarse
-          <div *ngIf="loadingForm">
-            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-arrow-repeat animate-spin" viewBox="0 0 16 16">
-              <path d="M11.534 7h3.932a.25.25 0 0 1 .192.41l-1.966 2.36a.25.25 0 0 1-.384 0l-1.966-2.36a.25.25 0 0 1 .192-.41zm-11 2h3.932a.25.25 0 0 0 .192-.41L2.692 6.23a.25.25 0 0 0-.384 0L.342 8.59A.25.25 0 0 0 .534 9z"/>
-              <path fill-rule="evenodd" d="M8 3c-1.552 0-2.94.707-3.857 1.818a.5.5 0 1 1-.771-.636A6.002 6.002 0 0 1 13.917 7H12.9A5.002 5.002 0 0 0 8 3zM3.1 9a5.002 5.002 0 0 0 8.757 2.182.5.5 0 1 1 .771.636A6.002 6.002 0 0 1 2.083 9H3.1z"/>
-            </svg>
-          </div>
-        </button>
-      </div>
     </div>
 
+    <div class="bg-gray-200 flex items-center gap-2 mt-6 rounded-2xl">
+      <button routerLink="/" class="bg-gray-200 text-gray-800 py-2 px-2 rounded-2xl flex-1">Cancelar</button>
+      <button (click)="onSendForm()" class="bg-black text-white py-2 px-4 rounded-2xl flex-1 flex items-center justify-center space-x-8">
+        Registrarse
+      </button>
+    </div>
   </div>
+  <app-loading-screen *ngIf="loadingForm"></app-loading-screen>
 </div>

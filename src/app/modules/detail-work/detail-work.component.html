@@ -1,7 +1,7 @@
 <div class="w-full h-screen flex flex-col p-10 gap-10">
   <div class="flex items-center justify-between">
     <div>
-      <button class="b-subtle" routerLink="/query-work">
+      <button class="text-gray-800 rounded" routerLink="/query-work">
         <arrow-left-solid-icon [size]="32"></arrow-left-solid-icon>
       </button>
     </div>
@@ -9,39 +9,75 @@
       <img src="assets/logos/logo-job-trading.svg" alt="JOB-TRADING" class="h-10">
     </div>
   </div>
-  <div class="flex-1 flex flex-col justify-between">
-    <div class="flex flex-col gap-5">
-      <span class="text-4xl font-questrial text-neutral-400">Detalle</span>
-    </div>
-    <div class="flex flex-col gap-10 overflow-y-auto" style="height: calc(100vh - 400px)">
 
+  <div class="flex-1 flex flex-col justify-between overflow-hidden gap-5">
+    <div class="flex flex-col gap-5">
+      <span class="text-4xl font-questrial text-neutral-900">Detalle</span>
+    </div>
+
+    <div class="flex flex-col gap-5 flex-grow overflow-hidden">
       <div class="gap-5 grid grid-cols-2">
         <div class="flex items-center gap-2 col-span-2">
-          <span class="text-3xl font-questrial text-neutral-900 font-bold">Pintar cuarto de 20x20</span>
+          <span class="text-3xl font-questrial text-neutral-900 font-bold">{{offer?.name}}</span>
         </div>
         <div class="flex items-center gap-2">
-          <span class="text-3xl font-questrial text-neutral-900 font-bold">S/. 300</span>
-        </div>
-        <div class="flex items-center gap-2">
-          <span class="text-3xl font-questrial text-neutral-900 font-bold">3 días</span>
+          <span class="text-3xl font-questrial text-neutral-900 font-bold">S/. {{offer?.price}}</span>
         </div>
         <div class="col-span-2 flex items-center gap-2">
           <span class="text-2xl font-questrial text-neutral-900">
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab, asperiores earum illo incidunt inventore maiores odio optio porro quidem quod recusandae sapiente sed vitae! Error illum magni natus quia voluptatibus?
+            {{offer?.description}}
           </span>
         </div>
         <div class="w-full flex flex-col gap-1 col-span-2">
           <span>Imágenes de referencia</span>
-          <div class="rounded-lg w-full overflow-hidden h-40">
-            <img class="w-full h-full" src="https://images.unsplash.com/photo-1513694203232-719a280e022f?q=80&w=869&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="">
+          <div class="w-full flex flex-wrap items-center justify-center mt-4">
+
+            <ng-container *ngIf="imagesOffer.length > 0">
+              <div *ngFor="let preview of imagesOffer; let i = index" class="relative mx-2 my-2">
+                <div class="relative inline-block">
+                  <img
+                    [src]="'data:' + preview.file_extension + ';base64,' + preview.image"
+                    alt="Vista previa de imagen"
+                    width="150"
+                    height="150"
+                    class="object-contain h-32 w-32 rounded"
+                    (click)="openModal(i)"
+                  />
+                </div>
+              </div>
+            </ng-container>
+
+            <div *ngIf="isModalOpen" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50" (click)="closeModal()">
+              <div class="bg-white p-4 rounded-lg" (click)="$event.stopPropagation()">
+                <button class="absolute top-2 right-2 text-gray-600" (click)="closeModal()">X</button>
+                <div *ngIf="imagesOffer[selectedIndex].file_name != ''" class="flex justify-center">
+                  <img [src]="'data:' + imagesOffer[selectedIndex].file_extension + ';base64,' + imagesOffer[selectedIndex].image" alt="Imagen grande" class="max-w-full max-h-screen"/>
+                </div>
+                <div class="flex justify-between mt-4">
+                  <button (click)="prevImage()" class="bg-gray-200 text-gray-800 py-2 px-4 rounded">Anterior</button>
+                  <button (click)="nextImage()" class="bg-gray-200 text-gray-800 py-2 px-4 rounded">Siguiente</button>
+                </div>
+              </div>
+            </div>
+
           </div>
         </div>
       </div>
-
     </div>
-    <div class="flex items-center gap-2 mt-6 rounded-2xl bg-neutral-100">
-      <button routerLink="/query-work" class="b-subtle flex-1">Volver</button>
-      <button routerLink="/request-sent" class="b-primary flex-1">Aceptar</button>
+    <div class="bg-gray-200 flex items-center gap-2 mt-6 rounded-2xl">
+      <button routerLink="/query-work" class="bg-gray-200 text-gray-800 py-2 px-2 rounded-2xl flex-1">Volver</button>
+      <button (click)="onSendRequest()" class="bg-black text-white py-2 px-4 rounded-2xl flex-1">Aceptar</button>
     </div>
   </div>
+  <app-loading-screen *ngIf="loadingForm"></app-loading-screen>
+
+  <div *ngIf="isErrorModalOpen" class="fixed inset-0 flex items-center justify-center z-50">
+    <div class="bg-white p-6 rounded shadow-lg">
+      <h2 class="text-xl font-bold mb-4">Error</h2>
+      <p>{{ errorMessage }}</p>
+      <button (click)="closeErrorModal()" class="mt-4 bg-red-500 text-white py-2 px-4 rounded">Cerrar</button>
+    </div>
+    <div class="fixed inset-0 bg-black opacity-50"></div>
+  </div>
+
 </div>

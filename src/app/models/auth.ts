@@ -26,6 +26,7 @@ export interface RegisterRequest {
   identification_number: string;
   identification_type: string;
   favorite_phrase: string;
+  cellphone: string;
 }
 
 export interface ResponseUser {

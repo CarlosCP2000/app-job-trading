@@ -1,7 +1,7 @@
 <div class="w-full h-screen flex flex-col p-10 gap-10">
   <div class="flex items-center justify-between">
     <div>
-      <button class="b-subtle" routerLink="/home">
+      <button class="text-gray-800 rounded" routerLink="/home">
         <x-mark-solid-icon [size]="32"></x-mark-solid-icon>
       </button>
     </div>
@@ -9,55 +9,61 @@
       <img src="assets/logos/logo-job-trading.svg" alt="JOB-TRADING" class="h-10">
     </div>
   </div>
-  <div class="flex-1 flex flex-col gap-2">
-    <div class="flex flex-col gap-10 h-full">
-      <div class="flex flex-col gap-5">
-        <span class="text-4xl font-questrial text-neutral-900">Bandeja <br> de Cambio</span>
-      </div>
+  <div class="flex-1 flex flex-col justify-between overflow-hidden gap-5">
+    <div class="flex flex-col gap-5">
+      <span class="text-4xl font-questrial text-neutral-900">Bandeja <br> de Cambio</span>
+    </div>
 
+    <div class="flex flex-col gap-5 flex-grow overflow-hidden">
       <ng-container *ngIf="!offers.length">
         <div class="flex flex-col gap-5">
           <span class="text-2xl font-questrial text-neutral-900">No hay trabajos disponibles</span>
         </div>
       </ng-container>
 
-      <ng-container *ngFor="let offer of offers; let i = index">
-        <ng-container *ngIf="offer.status == 1">
-        <div class="w-full overflow-y-auto" style="height: calc(62vh - 400px);">
-          <div class="flex flex-col gap-4 ">
-            <div class="ITEM p-5 rounded-2xl border-2 border-gray-200 bg-white flex flex-col gap-5">
+      <div class="relative">
+        <img src="assets/icons/search.svg" alt="Buscar" class="absolute left-3 top-1/2 transform -translate-y-1/2">
+        <input
+          type="text"
+          placeholder="Buscar por nombre"
+          [(ngModel)]="searchTerm"
+          class="w-full pl-10 p-2 border border-gray-300 rounded-3xl"
+        />
+      </div>
+
+      <div class="flex flex-col gap-2 overflow-y-auto h-130">
+        <ng-container *ngFor="let offer of filteredOffers();">
+          <ng-container *ngIf="offer.status == 1">
+            <div class="flex-1 min-w-[250px] p-5 rounded-2xl border-2 border-gray-200 bg-white">
               <div class="flex items-start gap-4">
-                <div>
-                  <img class="w-10 h-10" src="../../../assets/icons/pintor.png" alt="">
-                </div>
                 <div class="flex flex-col flex-1">
-                  <span class="text-xs text-neutral-900 uppercase">Oferta N° {{i+1}} </span>
-                  <span class="text-base text-neutral-900">{{offer.name}}</span>
+                  {{offer.name}}
                 </div>
               </div>
+
               <div class="w-full flex flex-wrap gap-4 bg-gray-100 p-2 rounded-lg">
                 <div class="flex flex-col w-fit">
-                  <span class="text-xs text-neutral-900 uppercase">Plazo</span>
-                  <span class="text-base text-neutral-900">En {{offer.deadline}} días</span>
+                  S/.{{offer.price}}
                 </div>
+
                 <div class="flex flex-col w-fit">
-                  <span class="text-xs text-neutral-900 uppercase">Estado</span>
-                  <span class="text-base text-neutral-900">Pendiente</span>
+                  Pendiente
                 </div>
               </div>
-              <button routerLink="/detail-work" class="w-full b-subtle">
+
+              <button (click)="selectOffer(offer.id)" class="w-full bg-gray-200 text-gray-800 py-2 px-4 rounded flex items-center justify-between">
                 <span>Ver solicitudes</span>
                 <chevron-right-solid-icon [size]="16"></chevron-right-solid-icon>
               </button>
             </div>
-          </div>
-        </div>
+          </ng-container>
         </ng-container>
-      </ng-container>
+      </div>
     </div>
-    <div class="flex items-center gap-2 rounded-2xl bg-neutral-100">
-      <button routerLink="/home" class="b-subtle flex-1">Volver</button>
-      <button routerLink="/query-work" class="b-primary flex-1">Refrescar</button>
+    <div class="bg-gray-200 flex items-center gap-2 mt-6 rounded-2xl">
+      <button routerLink="/home" class="bg-gray-200 text-gray-800 py-2 px-2 flex-1 rounded-2xl">Volver</button>
+      <button (click)="getOffers()" class="bg-black text-white py-2 px-4 flex-1 rounded-2xl">Refrescar</button>
     </div>
   </div>
+  <app-loading-screen *ngIf="loadingForm"></app-loading-screen>
 </div>

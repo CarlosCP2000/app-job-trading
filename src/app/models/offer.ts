@@ -34,6 +34,7 @@ export interface RequestCreateOffer {
   type: string;
   category: string;
   image_data: RequestImageOffer[];
+  address: string;
   user_id: string;
 }
 
@@ -42,18 +43,34 @@ export interface RequestImageOffer {
   file_extension: string;
   image: string;
 }
+
+export interface ImageOffer {
+  id: number;
+  image: string;
+  file_name: string;
+  file_extension: string;
+  status: number;
+  user_id: string;
+  offer_id: number;
+  created_at: Date;
+  updated_at: Date;
+}
+
+export interface ResponseImageOffer {
+  error: string;
+  code: number;
+  data: {
+    offer_images: ImageOffer[];
+  };
+  type: string;
+  msg: string;
+}
 export interface RequestListOffer {
   category: string;
   user_id: string;
 }
 
 
-
-export interface RequestOfferAssignation {
-  offer_id: number;
-  user_id: string;
-  status: number;
-}
 
 export interface Offer {
   id: number;
@@ -67,22 +84,51 @@ export interface Offer {
   user_id: string;
   created_at: Date;
   updated_at: Date;
+  rating: number;
 }
 
-export interface ImageOffer {
+export interface ResponseOffer {
+  error: string;
+  code: number;
+  data: {
+    offer: Offer;
+  };
+  type: string;
+  msg: string;
+}
+
+export interface ResponseCategory {
+  error: string;
+  code: number;
+  data: {
+    categories: Category[];
+  };
+  type: string;
+  msg: string;
+}
+
+export interface Category {
   id: number;
-  file_name: string;
-  file_extension: string;
-  offer_id: number;
-  image: string;
   name: string;
-  path: string;
   status: number;
   created_at: Date;
   updated_at: Date;
 }
 
-export interface OfferAssignation {
+export interface RequestOfferRequest {
+  offer_id: number;
+  user_id: string;
+}
+
+export interface ResponseOfferRequest {
+  error: string;
+  code: number;
+  data: OfferRequest;
+  type: string;
+  msg: string;
+
+}
+export interface OfferRequest {
   id: number;
   offer_id: number;
   user_id: string;
