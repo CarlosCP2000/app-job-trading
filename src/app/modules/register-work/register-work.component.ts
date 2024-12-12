@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, HostListener} from '@angular/core';
 import {Router, RouterLink} from "@angular/router";
 import {NgHeroiconsModule, SolidIconsModule} from "@dimaslz/ng-heroicons";
 import {CategoryService} from "../../services/shared/category.service";
@@ -38,7 +38,7 @@ export class RegisterWorkComponent{
   public categories: Category[] = [];
   filterText = ''; // Texto para filtrar
   filteredCategories: any[] = [];
-  selectedCategory: any = null;
+  selectedCategory: string = '';
   isDropdownOpen = false;
   showInfo: boolean = false;
 
@@ -63,7 +63,7 @@ export class RegisterWorkComponent{
   };
 
   ngOnInit() {
-    this.getCategorys();
+    this.getCategories();
   }
 
 
@@ -83,8 +83,15 @@ export class RegisterWorkComponent{
     this.showInfo = !this.showInfo;
   }
 
+  @HostListener('document:click', ['$event'])
+  onClickOutside(event: MouseEvent): void {
+    const dropdown = document.querySelector('.relative');
+    if (dropdown && !dropdown.contains(event.target as Node)) {
+      this.isDropdownOpen = false;
+    }
+  }
 
-  private getCategorys(): void {
+  private getCategories(): void {
 
     this._subscription.add(
       this.offerService.selectCategory().subscribe({
@@ -102,25 +109,33 @@ export class RegisterWorkComponent{
     );
   }
 
-  filterCategories(event: any) {
+  public filterCategories(event: any) {
     const query = event.target.value.toLowerCase();
     this.filteredCategories = this.categories.filter((category) =>
       category.name.toLowerCase().includes(query)
     );
   }
 
-  selectCategory(category: any) {
+  public selectCategory(category: string) {
     this.selectedCategory = category;
     this.isDropdownOpen = false;
     this.registerForm.get('category')?.setValue(category);
   }
 
-  toggleDropdown(event: any) {
+  public toggleDropdown(event: any) {
     this.isDropdownOpen = !this.isDropdownOpen;
     if (this.isDropdownOpen) {
       this.filteredCategories = this.categories;
     }
+    event.stopPropagation();
   }
+
+  public clearSelectedCategory(): void {
+    this.isDropdownOpen = true;
+    this.selectedCategory = '';
+    this.registerForm.get('category')?.reset();
+  }
+
 
 
   // public getLocation(): Promise<any> {
@@ -174,7 +189,6 @@ export class RegisterWorkComponent{
 
   public onSendForm() {
 
-    this.loadingForm = true;
     const formValue = this.registerForm.value;
 
     this.offer = {
@@ -195,6 +209,8 @@ export class RegisterWorkComponent{
       this.registerForm.markAllAsTouched()
       return;
     }
+
+    this.loadingForm = true;
 
     this._subscription.add(
       this.offerService.createOffer(this.offer).subscribe({

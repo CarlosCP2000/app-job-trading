@@ -48,7 +48,12 @@ export class OfferService {
     let headers = this.selectTokens();
     return this._httpClient.post<ResponseCreateOffer>(this.urlCreateOffer, data, {headers});
   }
-  public selectOffers(data: RequestListOffer): Observable<ResponseOffers> {
+
+  public selectOffers(): Observable<ResponseOffers> {
+    let headers = this.selectTokens();
+    return this._httpClient.get<ResponseOffers>(this.urlSelectOffers, {headers});
+  }
+  public selectOffersByUser(data: RequestListOffer): Observable<ResponseOffers> {
     let headers = this.selectTokens();
     let params = new HttpParams({fromObject: {...data}});
     return this._httpClient.get<ResponseOffers>(this.urlSelectOffers, {headers, params});

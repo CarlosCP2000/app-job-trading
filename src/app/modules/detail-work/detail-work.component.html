@@ -11,62 +11,84 @@
   </div>
 
   <div class="flex-1 flex flex-col justify-between overflow-hidden gap-5">
-    <div class="flex flex-col gap-5">
-      <span class="text-4xl font-questrial text-neutral-900">Detalle</span>
+
+    <div *ngIf="!isButtonDisabled" class="w-full flex flex-col gap-1 col-span-2 text-red-600">
+      <span class="text-right">¡Esta oferta fue creada por ti!</span>
     </div>
 
     <div class="flex flex-col gap-5 flex-grow overflow-hidden">
-      <div class="gap-5 grid grid-cols-2">
+      <div class="gap-5 grid">
+
         <div class="flex items-center gap-2 col-span-2">
           <span class="text-3xl font-questrial text-neutral-900 font-bold">{{offer?.name}}</span>
         </div>
-        <div class="flex items-center gap-2">
-          <span class="text-3xl font-questrial text-neutral-900 font-bold">S/. {{offer?.price}}</span>
-        </div>
-        <div class="col-span-2 flex items-center gap-2">
-          <span class="text-2xl font-questrial text-neutral-900">
-            {{offer?.description}}
-          </span>
-        </div>
-        <div class="w-full flex flex-col gap-1 col-span-2">
-          <span>Imágenes de referencia</span>
-          <div class="w-full flex flex-wrap items-center justify-center mt-4">
 
+        <div class="w-full col-span-2 p-4 border rounded-2xl shadow-md bg-gray-50 flex-grow flex flex-col gap-2">
+          <div class="w-full flex">
+            <span class="text-2xl font-questrial text-neutral-900">Detalles</span>
+          </div>
+
+          <div class="w-full flex gap-2">
+            <span class="text-3xl font-questrial text-neutral-900 font-bold">S/ {{offer?.price}}</span>
+          </div>
+
+          <div class="w-full flex gap-2">
+            <span class="text-1xl font-questrial text-neutral-900">
+              {{offer?.description}}
+            </span>
+          </div>
+        </div>
+
+        <div class="w-full flex flex-col gap-4 col-span-2 flex-grow">
+          <span class="text-lg font-semibold text-neutral-800">Imágenes de referencia</span>
+
+          <div class="w-full grid grid-cols-2 gap-4 mt-2 flex-grow">
             <ng-container *ngIf="imagesOffer.length > 0">
-              <div *ngFor="let preview of imagesOffer; let i = index" class="relative mx-2 my-2">
-                <div class="relative inline-block">
-                  <img
-                    [src]="'data:' + preview.file_extension + ';base64,' + preview.image"
-                    alt="Vista previa de imagen"
-                    width="150"
-                    height="150"
-                    class="object-contain h-32 w-32 rounded"
-                    (click)="openModal(i)"
-                  />
+              <div *ngFor="let preview of imagesOffer; let i = index" class="relative group">
+                <img
+                  [src]="'data:' + preview.file_extension + ';base64,' + preview.image"
+                  alt="Vista previa de imagen"
+                  class="object-cover w-full h-32 rounded-lg shadow-lg cursor-pointer transition-transform duration-200 ease-in-out"
+                  (click)="openModal(i)"
+                />
+                <div (click)="openModal(i)" class="absolute inset-0 bg-black bg-opacity-60 rounded-lg opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity duration-200 ease-in-out">
+                  <span class="text-white text-sm font-semibold">Ampliar</span>
                 </div>
               </div>
             </ng-container>
+          </div>
 
-            <div *ngIf="isModalOpen" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50" (click)="closeModal()">
-              <div class="bg-white p-4 rounded-lg" (click)="$event.stopPropagation()">
-                <button class="absolute top-2 right-2 text-gray-600" (click)="closeModal()">X</button>
-                <div *ngIf="imagesOffer[selectedIndex].file_name != ''" class="flex justify-center">
-                  <img [src]="'data:' + imagesOffer[selectedIndex].file_extension + ';base64,' + imagesOffer[selectedIndex].image" alt="Imagen grande" class="max-w-full max-h-screen"/>
-                </div>
-                <div class="flex justify-between mt-4">
-                  <button (click)="prevImage()" class="bg-gray-200 text-gray-800 py-2 px-4 rounded">Anterior</button>
-                  <button (click)="nextImage()" class="bg-gray-200 text-gray-800 py-2 px-4 rounded">Siguiente</button>
-                </div>
+          <div *ngIf="isModalOpen" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-75 z-50" (click)="onBackgroundClick($event)">
+            <div class="relative bg-white p-6 rounded-lg shadow-lg max-w-3xl w-full">
+              <button (click)="closeModal()"
+                      class="absolute top-1 right-1 w-6 h-6 text-white rounded-full flex items-center justify-center align-middle bg-gray-700">
+                <x-mark-solid-icon [size]="16"></x-mark-solid-icon>
+              </button>
+              <div *ngIf="imagesOffer[selectedIndex].file_name != ''" class="flex justify-center">
+                <img
+                  [src]="'data:' + imagesOffer[selectedIndex].file_extension + ';base64,' + imagesOffer[selectedIndex].image"
+                  alt="Imagen grande"
+                  class="object-contain max-w-full max-h-[80vh] rounded-lg"
+                />
+              </div>
+
+              <div class="flex justify-between mt-4">
+                <button (click)="prevImage()" class="bg-gray-200 text-gray-800 py-2 px-4 rounded-lg hover:bg-gray-300">Anterior</button>
+                <button (click)="nextImage()" class="bg-gray-200 text-gray-800 py-2 px-4 rounded-lg hover:bg-gray-300">Siguiente</button>
               </div>
             </div>
-
           </div>
+
         </div>
+
+
       </div>
     </div>
     <div class="bg-gray-200 flex items-center gap-2 mt-6 rounded-2xl">
       <button routerLink="/query-work" class="bg-gray-200 text-gray-800 py-2 px-2 rounded-2xl flex-1">Volver</button>
-      <button (click)="onSendRequest()" class="bg-black text-white py-2 px-4 rounded-2xl flex-1">Aceptar</button>
+      <button *ngIf="isButtonDisabled" (click)="onSendRequest()"
+              class="bg-black text-white py-2 px-4 rounded-2xl flex-1">Aceptar
+      </button>
     </div>
   </div>
   <app-loading-screen *ngIf="loadingForm"></app-loading-screen>

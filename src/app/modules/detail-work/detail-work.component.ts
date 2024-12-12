@@ -26,6 +26,7 @@ export class DetailWorkComponent {
   public offer!: Offer;
   public imagesOffer: ImageOffer[] = [];
   public loadingForm = true;
+  public isButtonDisabled = true;
 
   public errorMessage: string = '';
   public isErrorModalOpen = false;
@@ -69,6 +70,12 @@ export class DetailWorkComponent {
     this._subscription.unsubscribe();
   }
 
+  public onBackgroundClick(event: MouseEvent): void {
+    if (event.target === event.currentTarget) {
+      this.closeModal();
+    }
+  }
+
   private getParams(): void {
     const urlData = new URL(document.location.toString());
     const ObjectToken = urlData.searchParams.get('token');
@@ -81,6 +88,10 @@ export class DetailWorkComponent {
       this.offerService.selectOffer(id).subscribe({
         next: (data) => {
           this.offer = data.data.offer;
+
+          if(this.offer.user_id === this.offerService.getUserId()) {
+            this.isButtonDisabled = false;
+          }
         },
         error: (err) => {
           console.error('Error:', err);

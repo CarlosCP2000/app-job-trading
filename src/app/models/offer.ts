@@ -70,6 +70,10 @@ export interface RequestListOffer {
   user_id: string;
 }
 
+export interface RequestListOffers {
+
+}
+
 
 
 export interface Offer {

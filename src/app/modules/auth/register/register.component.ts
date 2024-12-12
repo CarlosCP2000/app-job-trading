@@ -103,8 +103,8 @@ export class RegisterComponent implements OnInit, OnDestroy {
   showTemporaryAlert() {
     this.showAlert = true;
     setTimeout(() => {
-      this.showAlert = false; // Oculta la alerta después de 3 segundos
-    }, 3000); // Tiempo en milisegundos (3000 ms = 3 segundos)
+      this.showAlert = false;
+    }, 3000);
   }
 
   onSendForm() {

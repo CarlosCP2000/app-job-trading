@@ -39,8 +39,6 @@ export class QueryWorkComponent {
 
 
   constructor(private offerService: OfferService, private categoryService: CategoryService, private router: Router) {
-    this.info.category = this.categoryService.getCategory();
-    this.info.user_id = this.offerService.getUserId();
   }
 
   ngOnInit() {
@@ -57,7 +55,7 @@ export class QueryWorkComponent {
   public getOffers(): void {
     this.loadingForm = true;
     this._subscription.add(
-      this.offerService.selectOffers(this.info).subscribe({
+      this.offerService.selectOffers().subscribe({
         next: (data) => {
           this.offers = data.data.offers.data;
           return this.offers;
