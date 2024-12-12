@@ -177,5 +177,18 @@ export class DetailWorkComponent {
     }
   }
 
+  redirectToWhatsApp(phoneNumber: any): void {
+    if (!phoneNumber) {
+      return;
+    }
+    const message = encodeURIComponent('Hola, he visto tu oferta de trabajo. Me interesa obtener mas información'); // Mensaje opcional
+    
+    // Construcción de la URL de WhatsApp
+    const whatsappUrl = `https://wa.me/+51${phoneNumber}?text=${message}`;
+    
+    // Abrir en una nueva ventana
+    window.open(whatsappUrl, '_blank');
+  }
+
 
 }

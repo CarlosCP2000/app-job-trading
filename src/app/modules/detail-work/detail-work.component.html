@@ -20,7 +20,7 @@
       <div class="gap-5 grid">
 
         <div class="flex items-center gap-2 col-span-2">
-          <span class="text-3xl font-questrial text-neutral-900 font-bold">{{offer?.name}}</span>
+          <span class="text-3xl font-questrial text-neutral-900 font-bold">{{offer.name || ''}}</span>
         </div>
 
         <div class="w-full col-span-2 p-4 border rounded-2xl shadow-md bg-gray-50 flex-grow flex flex-col gap-2">
@@ -29,13 +29,27 @@
           </div>
 
           <div class="w-full flex gap-2">
-            <span class="text-3xl font-questrial text-neutral-900 font-bold">S/ {{offer?.price}}</span>
+            <span class="text-3xl font-questrial text-neutral-900 font-bold">S/ {{offer.price || ''}}</span>
           </div>
 
           <div class="w-full flex gap-2">
             <span class="text-1xl font-questrial text-neutral-900">
-              {{offer?.description}}
+              {{offer.description || ''}}
             </span>
+          </div>
+          <div class="w-full flex gap-2">
+            Contacto : 
+            
+            <span class="text-1xl font-questrial text-neutral-900">
+              {{offer.cellphone || ''}}
+            </span>
+            <div *ngIf="offer.cellphone" title="Ir a Whatsapp">
+              <button (click)="redirectToWhatsApp(offer.cellphone)">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16" fill="#25D366">
+                <path d="M13.601 2.326A7.854 7.854 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.933 7.933 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.898 7.898 0 0 0 13.601 2.326zM7.994 14.521a6.573 6.573 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.557 6.557 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592zm3.615-4.934c-.197-.099-1.17-.578-1.353-.646-.182-.065-.315-.099-.448.099-.133.197-.515.646-.632.779-.117.133-.234.148-.432.05-.197-.099-.836-.308-1.592-.984-.59-.525-.985-1.175-1.103-1.372-.117-.198-.012-.304.086-.403.087-.088.197-.232.296-.346.099-.114.132-.198.199-.33.065-.134.034-.248-.015-.347-.05-.099-.448-1.076-.615-1.47-.162-.389-.323-.335-.448-.34-.117-.007-.25-.007-.383-.007a.729.729 0 0 0-.531.249c-.182.198-.691.677-.691 1.654 0 .977.71 1.916.81 2.049.099.133 1.394 2.132 3.383 2.992.47.205.84.326 1.129.418.475.152.904.129 1.246.08.38-.058 1.171-.479 1.338-.943.164-.464.164-.86.114-.943-.049-.084-.182-.133-.38-.232z"/>
+              </svg>
+              </button>
+            </div>
           </div>
         </div>
 

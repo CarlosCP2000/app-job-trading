@@ -89,6 +89,8 @@ export interface Offer {
   created_at: Date;
   updated_at: Date;
   rating: number;
+  email?: string;
+  cellphone?: string;
 }
 
 export interface ResponseOffer {
